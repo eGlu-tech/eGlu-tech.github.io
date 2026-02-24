@@ -102,25 +102,12 @@ h1 {
     color: var(--accent-hover);
 }
 
-.article-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
 .article-date {
     font-size: 0.9rem;
     color: var(--accent);
     font-weight: 700;
     text-transform: capitalize;
     letter-spacing: 0.05em;
-}
-
-.article-author {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-family: 'Space Grotesk', sans-serif;
-    opacity: 0.8;
 }
 
 .article-title {
