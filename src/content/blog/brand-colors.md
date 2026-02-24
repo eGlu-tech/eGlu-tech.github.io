@@ -2,6 +2,7 @@
 title: "Why Warm Colors Define Our Brand"
 description: "Exploring the psychology of earth tones in technical documentation and user interfaces."
 date: "Feb 20, 2026"
+author: "@ai"
 ---
 
 # Why Warm Colors Define Our Brand

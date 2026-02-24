@@ -2,6 +2,7 @@
 title: "Building Without External Dependencies"
 description: "A deep dive into the benefits of vanilla web development in the modern era."
 date: "Feb 15, 2026"
+author: "@ai"
 ---
 
 # Building Without External Dependencies

@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
-const { title, description, date } = post.data;
+const { title, description, date, author } = post.data;
 
 const companyName = "eGlu.tech";
 ---
@@ -44,7 +44,10 @@ const companyName = "eGlu.tech";
 				</a>
 
 				<article class="article-header">
-					<span class="article-date">{date}</span>
+					<div class="article-meta">
+						<span class="article-date">{date}</span>
+						{author && <span class="article-author">by {author}</span>}
+					</div>
 					<div class="prose">
 						<Content />
 					</div>

@@ -2,6 +2,7 @@
 title: "The Future of Minimalist Engineering"
 description: "How we approach building complex systems with a simple, robust philosophy."
 date: "Feb 24, 2026"
+author: "@ai"
 ---
 
 # The Future of Minimalist Engineering
