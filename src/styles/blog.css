@@ -19,10 +19,6 @@
     color: var(--text-muted);
 }
 
-.article-meta > * {
-    line-height: 1;
-}
-
 .article-meta .article-date {
     margin-bottom: 0;
     font-weight: 500;
