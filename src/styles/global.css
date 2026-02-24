@@ -138,7 +138,7 @@ h1 {
     font-weight: 700;
     font-size: 1.05em;
     letter-spacing: -0.05em;
-    text-shadow: 0 0 10px var(--accent);
+    text-shadow: 0 0 10px var(--accent-hover);
 }
 
 footer {
