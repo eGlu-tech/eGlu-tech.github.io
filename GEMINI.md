@@ -12,11 +12,5 @@
 ### Architectural Path
 - **Framework:** Astro (Static Site Generation).
 - **Styling:** Vanilla CSS with CSS Variables. No Tailwind, no CSS-in-JS.
-- **Typography:** Inter (Body), Space Grotesk (Headings).
-- **Aesthetic:** Dark, high-contrast, technical but approachable.
+- **Aesthetic:** Dark, technical but approachable.
 - **Content:** Markdown-driven blog via Astro Content Collections.
-
-### Design Tokens
-- **Background:** `#1c1917` (Stone 900)
-- **Accent:** `#d97706` (Amber 600)
-- **Max Width:** `680px` (Optimized for readability)
