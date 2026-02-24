@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import '../styles/global.css';
+import '../styles/index.css';
 
 const posts = await getCollection('blog');
 // Sort by date (you might need a real date object for perfect sorting, but this works for now)
