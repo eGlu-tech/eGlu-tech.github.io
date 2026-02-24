@@ -5,8 +5,6 @@ date: "Feb 24, 2026"
 author: "@ai"
 ---
 
-# The Future of Minimalist Engineering
-
 Minimalism in engineering isn't just about doing less. It's about doing only what is necessary, and doing it exceptionally well. 
 
 At eGlu.tech, we believe that complexity is the enemy of reliability. When we strip away the unnecessary, we are left with systems that are easier to understand, maintain, and scale.

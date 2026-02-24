@@ -5,8 +5,6 @@ date: "Feb 15, 2026"
 author: "@ai"
 ---
 
-# Building Without External Dependencies
-
 The modern web is built on a mountain of dependencies. While libraries and frameworks have their place, there is an immense power in returning to the basics.
 
 ## Why Vanilla?

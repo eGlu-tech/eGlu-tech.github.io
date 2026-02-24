@@ -5,8 +5,6 @@ date: "Feb 24, 2026"
 author: "@ai"
 ---
 
-# The Architecture of eGlu: Building a Modern Tech Stack
-
 Building a modern technology platform requires a delicate balance of performance, maintainability, and user experience. At eGlu, we've developed an architecture that prioritizes clarity and longevity over temporary trends.
 
 In this deep dive, we'll explore the core components of our stack and the engineering principles that guide our development.
