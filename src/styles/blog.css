@@ -1,0 +1,45 @@
+/* Blog Post Specifics */
+.prose {
+    margin-top: 3rem;
+}
+.prose h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.2;
+}
+.prose h2 {
+    font-size: 1.5rem;
+    margin: 2rem 0 0.75rem;
+    font-family: 'Space Grotesk', sans-serif;
+}
+.prose p {
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+    color: var(--text-main);
+    opacity: 0.9;
+}
+.prose ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+.prose li {
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+}
+.article-header {
+    margin-bottom: 4rem;
+}
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+.back-link:hover {
+    color: var(--accent);
+    transform: translateX(-4px);
+}
