@@ -155,8 +155,8 @@ footer {
 }
 
 @media (max-width: 640px) {
-    h1 { font-size: 2.25rem; }
-    body { padding: 2rem 1rem; }
+    h1 { font-size: 1.75rem; }
+    body { padding: 1.5rem 1rem; }
     .article-card:hover { transform: none; }
     footer {
         flex-direction: column-reverse;
