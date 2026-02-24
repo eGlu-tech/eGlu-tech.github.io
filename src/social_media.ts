@@ -1,5 +1,5 @@
 export const socialMedia = {
-    linkedinLink: 'https://linkedin.com/company/eglu-tech',
-    instagramLink: 'https://instagram.com/eglu.tech',
-    xLink: 'https://x.com/eglu_tech'
+    linkedinLink: "https://www.linkedin.com/company/eglu-smart-home/",
+    instagramLink: "https://www.instagram.com/myeglu/",
+    xLink: 'https://www.instagram.com/myeglu/'
 };
