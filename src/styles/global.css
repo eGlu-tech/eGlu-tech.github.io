@@ -1,5 +1,5 @@
 :root {
-    --bg: #1c1917; /* Lighter and warmer */
+    --bg: #1c1917;
     --surface: #292524;
     --text-main: #e7e5e4;
     --text-muted: #a8a29e;
@@ -40,6 +40,11 @@ h1, .article-title, .article-date, .logo {
     font-family: 'Space Grotesk', sans-serif;
 }
 
+.brand-link {
+    text-decoration: none;
+    display: inline-block;
+}
+
 h1 {
     font-size: 3rem;
     font-weight: 700;
@@ -47,6 +52,13 @@ h1 {
     color: var(--text-main);
     line-height: 1;
     letter-spacing: -0.02em;
+    transition: var(--transition);
+}
+
+.brand-link:hover h1 {
+    color: var(--accent-hover);
+    letter-spacing: -0.05em;
+    text-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
 }
 
 .subtitle {
@@ -87,9 +99,10 @@ h1 {
 }
 
 .article-date {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: var(--accent);
     font-weight: 700;
+    font-variant: small-caps;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
