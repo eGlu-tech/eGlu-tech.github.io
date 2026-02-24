@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import '../styles/index.css';
-import { socialMediaLinks } from '../constants.ts';
+import { socialMediaLinks, blogName } from '../constants.ts';
 import Footer from '../components/Footer.astro';
 
 const posts = await getCollection('blog');
@@ -11,8 +11,6 @@ const articles = posts.map(post => ({
   ...post.data,
   slug: post.slug
 })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-const companyName = "eGlu.tech";
 ---
 
 <html lang="en">
@@ -23,7 +21,7 @@ const companyName = "eGlu.tech";
 		<meta name="generator" content={Astro.generator} />
 		<meta name="color-scheme" content="dark">
 		<meta name="darkreader-lock">
-		<title>{companyName} | Blog</title>
+		<title>{blogName} | Blog</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
@@ -33,7 +31,7 @@ const companyName = "eGlu.tech";
 			<main>
 				<header style="margin-bottom: 1.5rem;">
 					<a href="/" class="brand-link">
-						<h1>eGlu.tech</h1>
+						<h1>{blogName}</h1>
 					</a>
 					<p class="subtitle">Notes on technology, design, and engineering.</p>
 				</header>
