@@ -9,7 +9,6 @@
 - **Framework:** Astro (Static Site Generation).
 - **Deployment:** GitHub Pages (via GitHub Actions).
 - **Site URL:** `https://eglu.tech`
-- **Constants:** `src/consts.ts` (Centralized config for title, description, and social links).
 - **Typography:** 
   - Headings/Meta: `Space Grotesk` (Technical, Geometric).
   - Body: `Inter` (Legibility, modern).
