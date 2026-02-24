@@ -29,6 +29,31 @@
 .article-header {
     margin-bottom: 4rem;
 }
+.article-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.divider {
+    color: var(--border);
+    font-size: 0.8rem;
+    margin: 0 0.5rem;
+}
+
+.article-author {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: 'Space Grotesk', sans-serif;
+    transition: var(--transition);
+    cursor: default;
+}
+
+.article-author:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
 .back-link {
     display: inline-flex;
     align-items: center;
