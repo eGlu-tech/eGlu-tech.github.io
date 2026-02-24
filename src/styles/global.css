@@ -135,6 +135,7 @@ h1 {
 
 .footer-link:hover {
     color: var(--accent-hover);
+    font-family: 'Space Grotesk', sans-serif;
     letter-spacing: -0.05em;
     text-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
 }
