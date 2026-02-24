@@ -12,7 +12,7 @@
 .article-meta {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
     gap: 1.25rem;
     margin-bottom: 2rem;
     font-size: 1rem;
@@ -34,8 +34,6 @@
     color: var(--text-muted);
     transition: var(--transition);
     cursor: pointer;
-    display: inline-block;
-    transform: translateY(0.05em);
 }
 
 .article-author:hover {
