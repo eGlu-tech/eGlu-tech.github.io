@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import '../styles/index.css';
-import { socialMedia } from '../social_media';
+import { socialMediaLinks } from '../constants.ts';
 import Footer from '../components/Footer.astro';
 
 const posts = await getCollection('blog');
