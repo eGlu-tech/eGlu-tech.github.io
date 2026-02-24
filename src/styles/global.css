@@ -19,7 +19,7 @@
 body {
     background-color: var(--bg);
     color: var(--text-main);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
     line-height: 1.6;
     padding: 3rem 1.5rem;
     -webkit-font-smoothing: antialiased;
@@ -31,12 +31,11 @@ body {
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 0.25rem;
-    letter-spacing: -0.04em;
     color: var(--text-main);
-    line-height: 1.1;
+    line-height: 1;
 }
 
 .subtitle {
@@ -44,7 +43,6 @@ h1 {
     font-size: 1.25rem;
     max-width: 500px;
     font-weight: 400;
-    letter-spacing: -0.01em;
 }
 
 .articles-list {
@@ -62,14 +60,17 @@ h1 {
     margin: 0 -1.25rem;
     border-radius: 8px;
     transition: var(--transition);
+    outline: none;
 }
 
-.article-card:hover {
+.article-card:hover,
+.article-card:focus-visible {
     background-color: var(--surface);
     transform: translateX(8px);
 }
 
-.article-card:hover .article-title {
+.article-card:hover .article-title,
+.article-card:focus-visible .article-title {
     color: var(--accent-hover);
 }
 
