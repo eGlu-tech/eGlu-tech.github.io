@@ -5,8 +5,8 @@ const blog = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
-		date: z.string(), // We can use z.date() later, but keeping it as string for now to match your format
-		author: z.string().optional(),
+		date: z.string(),
+		author: z.string(),
 	}),
 });
 
