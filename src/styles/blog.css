@@ -1,70 +1,79 @@
 /* Blog Post Specifics */
 .main-title {
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.05;
     margin-bottom: 0.5rem;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.05em;
     color: var(--text-main);
+    text-wrap: balance;
 }
 
 .article-meta {
     display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    margin-bottom: 1.25rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.article-meta .article-date {
+    margin-bottom: 0;
+    letter-spacing: 0.05em;
 }
 
 .article-author-wrapper {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    font-family: 'Space Grotesk', sans-serif;
-    opacity: 0.8;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
-.article-author {
-    color: var(--text-muted);
-    transition: var(--transition);
-    cursor: default;
-}
-
-.article-author:hover {
-    color: var(--accent);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    opacity: 1;
+.article-author-wrapper::before {
+    content: "•";
+    opacity: 0.4;
 }
 
 .prose {
-    margin-top: 0.5rem;
-    line-height: 1.6;
+    margin-top: 1rem;
+    line-height: 1.7;
+    font-feature-settings: "cv02", "cv03", "cv04", "ss01";
 }
-.prose h1 {
-    font-size: 1.75rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.2;
-}
-.prose h2 {
-    font-size: 1.35rem;
-    margin: 1.25rem 0 0.5rem;
-    font-family: 'Space Grotesk', sans-serif;
-}
+
 .prose p {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
     font-size: 1rem;
     color: var(--text-main);
-    opacity: 0.9;
+    opacity: 0.92;
+    text-wrap: pretty;
 }
+
+.prose h1, .prose h2, .prose h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.prose h1 { font-size: 1.85rem; }
+.prose h2 { font-size: 1.45rem; }
+
 .prose ul {
-    margin-bottom: 1.25rem;
-    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1.25rem;
+    list-style-type: square;
 }
+
 .prose li {
     margin-bottom: 0.5rem;
-    font-size: 1rem;
+    color: var(--text-main);
+    opacity: 0.92;
 }
 .article-header {
-    margin-top: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 0.75rem;
+    margin-bottom: 1.75rem;
 }
