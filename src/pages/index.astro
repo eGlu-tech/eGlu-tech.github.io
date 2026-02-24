@@ -54,7 +54,7 @@ const companyName = "eGlu.tech";
 				color: var(--text-main);
 				font-family: 'Inter', system-ui, -apple-system, sans-serif;
 				line-height: 1.6;
-				padding: 4rem 1.5rem;
+				padding: 3rem 1.5rem;
 				-webkit-font-smoothing: antialiased;
 			}
 
@@ -63,23 +63,19 @@ const companyName = "eGlu.tech";
 				margin: 0 auto;
 			}
 
-			main {
-				margin-top: 2rem;
-			}
-
 			h1 {
 				font-size: 3rem;
 				font-weight: 800;
-				margin-bottom: 0.75rem;
+				margin-bottom: 0.25rem;
 				letter-spacing: -0.04em;
 				color: var(--text-main);
+				line-height: 1.1;
 			}
 
 			.subtitle {
 				color: var(--text-muted);
 				font-size: 1.25rem;
 				max-width: 500px;
-				margin-bottom: 5rem;
 				font-weight: 400;
 				letter-spacing: -0.01em;
 			}
@@ -87,31 +83,27 @@ const companyName = "eGlu.tech";
 			.articles-list {
 				display: flex;
 				flex-direction: column;
-				gap: 4rem;
+				gap: 0.5rem;
 			}
 
 			.article-card {
 				display: flex;
 				flex-direction: column;
-				gap: 0.75rem;
+				gap: 0.4rem;
 				text-decoration: none;
-				padding: 1.5rem;
-				margin: 0 -1.5rem;
+				padding: 1.25rem;
+				margin: 0 -1.25rem;
 				border-radius: 8px;
 				transition: var(--transition);
 			}
 
 			.article-card:hover {
 				background-color: var(--surface);
-				transform: translateX(12px);
+				transform: translateX(8px);
 			}
 
 			.article-card:hover .article-title {
 				color: var(--accent-hover);
-			}
-
-			.article-card:hover .article-date {
-				color: var(--text-main);
 			}
 
 			.article-date {
@@ -120,7 +112,6 @@ const companyName = "eGlu.tech";
 				font-weight: 600;
 				text-transform: uppercase;
 				letter-spacing: 0.1em;
-				transition: var(--transition);
 			}
 
 			.article-title {
@@ -135,12 +126,12 @@ const companyName = "eGlu.tech";
 			.article-description {
 				color: var(--text-muted);
 				font-size: 1.1rem;
-				line-height: 1.5;
+				line-height: 1.4;
 			}
 
 			footer {
-				margin-top: 8rem;
-				padding-top: 2rem;
+				margin-top: 2rem;
+				padding: 2rem 0;
 				border-top: 1px solid var(--border);
 				color: var(--text-muted);
 				font-size: 0.875rem;
@@ -156,7 +147,7 @@ const companyName = "eGlu.tech";
 	<body>
 		<div class="container">
 			<main>
-				<header style="margin-bottom: 5rem;">
+				<header style="margin-bottom: 2.5rem;">
 					<h1>eGlu.tech</h1>
 					<p class="subtitle">Notes on technology, design, and engineering.</p>
 				</header>
