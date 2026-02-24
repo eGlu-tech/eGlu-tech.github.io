@@ -1,9 +1,9 @@
 /* Blog Post Specifics */
 .main-title {
-    font-size: 3rem;
+    font-size: 2.6rem;
     font-weight: 800;
     line-height: 1.1;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     letter-spacing: -0.04em;
     color: var(--text-main);
 }
@@ -11,8 +11,8 @@
 .article-meta {
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
-    margin-bottom: 2.5rem;
+    gap: 0.1rem;
+    margin-bottom: 1.5rem;
 }
 
 .article-author-wrapper {
@@ -37,32 +37,33 @@
 }
 
 .prose {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 .prose h1 {
     font-size: 2.2rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     line-height: 1.2;
 }
 .prose h2 {
     font-size: 1.5rem;
-    margin: 2rem 0 0.75rem;
+    margin: 1.5rem 0 0.75rem;
     font-family: 'Space Grotesk', sans-serif;
 }
 .prose p {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     font-size: 1.05rem;
     color: var(--text-main);
     opacity: 0.9;
 }
 .prose ul {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     padding-left: 1.5rem;
 }
 .prose li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     font-size: 1.05rem;
 }
 .article-header {
+    margin-top: 1rem;
     margin-bottom: 2rem;
 }
