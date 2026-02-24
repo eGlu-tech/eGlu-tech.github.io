@@ -34,6 +34,8 @@
     color: var(--text-muted);
     transition: var(--transition);
     cursor: pointer;
+    display: inline-block;
+    transform: translateY(0.05em);
 }
 
 .article-author:hover {
