@@ -17,6 +17,7 @@
   - `global.css`: Shared tokens, layout, branding (header/footer).
   - `index.css`: Front-page article list and card-specific styles.
   - `blog.css`: Long-form prose and post-specific meta-logic.
+  - **Component Styles:** Colocated within component directories (e.g., `src/components/footer/footer.css`).
 
 ## 3. Design Tokens & Constraints
 - **Max Width:** `680px` (Optimized for reading rhythm).
