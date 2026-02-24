@@ -28,10 +28,10 @@ body {
     background-position: -16px -16px;
     color: var(--text-main);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
-    padding: 2.5rem 1.5rem;
+    line-height: 1.5;
+    padding: 1.5rem 1.25rem;
     -webkit-font-smoothing: antialiased;
-    font-size: 1.05rem;
+    font-size: 1rem;
     min-height: 100vh;
 }
 
@@ -50,9 +50,9 @@ h1, .article-title, .article-date, .logo {
 }
 
 h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.15rem;
     color: var(--text-main);
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -67,7 +67,7 @@ h1 {
 
 .subtitle {
     color: var(--text-muted);
-    font-size: 1.1rem;
+    font-size: 1rem;
     max-width: 500px;
     font-weight: 400;
 }
@@ -75,28 +75,26 @@ h1 {
 .articles-list {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    margin-top: 2.5rem;
+    gap: 0.25rem;
+    margin-top: 1rem;
 }
 
 .article-card {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.2rem;
     text-decoration: none;
-    padding: 1.25rem;
-    margin: 0 -1.25rem;
-    border-radius: 12px;
+    padding: 1rem;
+    margin: 0 -1rem;
+    border-radius: 6px;
     transition: var(--transition);
     outline: none;
-    border: 1px solid transparent;
 }
 
 .article-card:hover,
 .article-card:focus-visible {
     background-color: rgba(255, 255, 255, 0.03);
-    border-color: var(--border);
-    transform: translateY(-2px);
+    transform: translateX(4px);
 }
 
 .article-card:hover .article-title,
@@ -113,7 +111,7 @@ h1 {
 }
 
 .article-title {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-main);
     line-height: 1.2;
@@ -122,16 +120,16 @@ h1 {
 
 .article-description {
     color: var(--text-muted);
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 
 footer {
-    margin-top: 3rem;
-    padding: 1.5rem 0;
+    margin-top: 1.5rem;
+    padding: 1rem 0;
     border-top: 1px solid var(--border);
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
