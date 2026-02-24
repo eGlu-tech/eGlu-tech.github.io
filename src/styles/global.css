@@ -23,12 +23,16 @@
 
 body {
     background-color: var(--bg);
+    background-image: radial-gradient(var(--border) 1px, transparent 0);
+    background-size: 32px 32px;
+    background-position: -16px -16px;
     color: var(--text-main);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     line-height: 1.6;
     padding: 3rem 1.5rem;
     -webkit-font-smoothing: antialiased;
     font-size: 1rem;
+    min-height: 100vh;
 }
 
 .container {
@@ -102,8 +106,7 @@ h1 {
     font-size: 0.9rem;
     color: var(--accent);
     font-weight: 700;
-    font-variant: small-caps;
-    text-transform: uppercase;
+    text-transform: capitalize;
     letter-spacing: 0.05em;
 }
 
