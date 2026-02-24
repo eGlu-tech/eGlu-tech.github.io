@@ -7,6 +7,8 @@
 
 ## 2. Technical Stack
 - **Framework:** Astro (Static Site Generation).
+- **Deployment:** GitHub Pages (via GitHub Actions).
+- **Site URL:** `https://eglu.tech`
 - **Typography:** 
   - Headings/Meta: `Space Grotesk` (Technical, Geometric).
   - Body: `Inter` (Legibility, modern).
