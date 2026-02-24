@@ -29,7 +29,7 @@ body {
     color: var(--text-main);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     line-height: 1.5;
-    padding: 2rem 1.25rem;
+    padding: 1.5rem 1.25rem;
     -webkit-font-smoothing: antialiased;
     font-size: 1rem;
     min-height: 100vh;
@@ -42,36 +42,80 @@ body {
 
 h1, .article-title, .article-date, .logo {
     font-family: 'Space Grotesk', sans-serif;
-    text-rendering: optimizeLegibility;
+}
+
+.brand-link {
+    text-decoration: none;
+    display: inline-block;
 }
 
 h1 {
-    font-size: 2.25rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.15rem;
     color: var(--text-main);
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    text-wrap: balance;
-    transition: var(--transition);
-}
-
-.article-title {
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--text-main);
-    line-height: 1.25;
+    line-height: 1.1;
     letter-spacing: -0.02em;
     transition: var(--transition);
 }
 
+.brand-link:hover h1 {
+    color: var(--accent-hover);
+    letter-spacing: -0.05em;
+    text-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 500px;
+    font-weight: 400;
+}
+
+.articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 1rem;
+}
+
+.article-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    text-decoration: none;
+    padding: 1rem;
+    margin: 0 -1rem;
+    border-radius: 6px;
+    transition: var(--transition);
+    outline: none;
+}
+
+.article-card:hover,
+.article-card:focus-visible {
+    background-color: rgba(255, 255, 255, 0.03);
+    transform: translateX(4px);
+}
+
+.article-card:hover .article-title,
+.article-card:focus-visible .article-title {
+    color: var(--accent-hover);
+}
+
 .article-date {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: var(--accent);
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-bottom: 0.1rem;
+    text-transform: capitalize;
+    letter-spacing: 0.05em;
+}
+
+.article-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.2;
+    transition: var(--transition);
 }
 
 .article-description {
