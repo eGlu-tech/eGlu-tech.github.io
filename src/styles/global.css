@@ -29,7 +29,7 @@ body {
     color: var(--text-main);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     line-height: 1.5;
-    padding: 1.5rem 1.25rem;
+    padding: 2.5rem 1.25rem;
     -webkit-font-smoothing: antialiased;
     font-size: 1rem;
     min-height: 100vh;
@@ -42,6 +42,7 @@ body {
 
 h1, .article-title, .article-date, .logo {
     font-family: 'Space Grotesk', sans-serif;
+    text-rendering: optimizeLegibility;
 }
 
 .brand-link {
@@ -50,12 +51,13 @@ h1, .article-title, .article-date, .logo {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: 700;
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.25rem;
     color: var(--text-main);
     line-height: 1.1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
     transition: var(--transition);
 }
 
@@ -75,8 +77,8 @@ h1 {
 .articles-list {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    margin-top: 1rem;
+    gap: 1.25rem;
+    margin-top: 2rem;
 }
 
 .article-card {
@@ -103,25 +105,26 @@ h1 {
 }
 
 .article-date {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--accent);
     font-weight: 700;
-    text-transform: capitalize;
-    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 .article-title {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: 600;
     color: var(--text-main);
-    line-height: 1.2;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
     transition: var(--transition);
 }
 
 .article-description {
     color: var(--text-muted);
     font-size: 0.95rem;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 footer {
