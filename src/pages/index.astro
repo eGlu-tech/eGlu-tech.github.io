@@ -4,6 +4,7 @@ import '../styles/global.css';
 import '../styles/index.css';
 import { blogName } from '../constants.ts';
 import Footer from '../components/footer/Footer.astro';
+import BaseHead from '../components/base-head/BaseHead.astro';
 
 const posts = await getCollection('blog');
 // Sort by date (you might need a real date object for perfect sorting, but this works for now)
@@ -14,18 +15,7 @@ const articles = posts.map(post => ({
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="color-scheme" content="dark">
-		<meta name="darkreader-lock">
-		<title>{blogName} | Blog</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-	</head>
+	<BaseHead title={`${blogName} | Blog`} />
 	<body>
 		<div class="container">
 			<main>
