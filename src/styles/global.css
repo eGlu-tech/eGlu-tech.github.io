@@ -50,11 +50,11 @@ h1, .article-title, .article-date, .logo {
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 2.4rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
     color: var(--text-main);
-    line-height: 1;
+    line-height: 1.2;
     letter-spacing: -0.02em;
     transition: var(--transition);
 }
