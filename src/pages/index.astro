@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import '../styles/index.css';
+import { SITE_TITLE, SITE_DESCRIPTION, SOCIAL_LINKS } from '../consts';
 
 const posts = await getCollection('blog');
 // Sort by date (you might need a real date object for perfect sorting, but this works for now)
@@ -10,7 +11,7 @@ const articles = posts.map(post => ({
   slug: post.slug
 })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-const companyName = "eGlu.tech";
+const companyName = SITE_TITLE;
 ---
 
 <html lang="en">
@@ -31,9 +32,9 @@ const companyName = "eGlu.tech";
 			<main>
 				<header style="margin-bottom: 1.5rem;">
 					<a href="/" class="brand-link">
-						<h1>eGlu.tech</h1>
+						<h1>{companyName}</h1>
 					</a>
-					<p class="subtitle">Notes on technology, design, and engineering.</p>
+					<p class="subtitle">{SITE_DESCRIPTION}</p>
 				</header>
 
 				<div class="articles-list">
@@ -50,15 +51,13 @@ const companyName = "eGlu.tech";
 			<footer>
 				<p>&copy; {new Date().getFullYear()} <a href="/" class="footer-link">{companyName}</a>. Built with simplicity.</p>
 				<div class="social-links">
-					<a href="#" aria-label="X">
-						<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
-					</a>
-					<a href="#" aria-label="Instagram">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-					</a>
-					<a href="#" aria-label="LinkedIn">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-					</a>
+					{SOCIAL_LINKS.map((link) => (
+						<a href={link.url} aria-label={link.name} target="_blank" rel="noopener noreferrer">
+							{link.icon === 'x' && <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>}
+							{link.icon === 'instagram' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>}
+							{link.icon === 'linkedin' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>}
+						</a>
+					))}
 				</div>
 			</footer>
 		</div>
