@@ -15,7 +15,6 @@
     align-items: center;
     gap: 1.25rem;
     margin-bottom: 2rem;
-    font-family: 'Space Grotesk', sans-serif;
     font-size: 1rem;
     color: var(--text-muted);
 }
@@ -23,7 +22,6 @@
 .article-meta .article-date {
     margin-bottom: 0;
     font-weight: 500;
-    letter-spacing: 0;
 }
 
 .meta-separator {
@@ -35,7 +33,7 @@
 .article-author {
     color: var(--text-muted);
     transition: var(--transition);
-    cursor: default;
+    cursor: pointer;
 }
 
 .article-author:hover {
