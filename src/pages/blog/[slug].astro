@@ -36,10 +36,8 @@ const companyName = "eGlu.tech";
 					<h1 class="main-title">{title}</h1>
 					<div class="article-meta">
 						<span class="article-date">{date}</span>
-						{author && (
-							<span class="meta-separator">/</span>
-							<span class="article-author">{author}</span>
-						)}
+						{author && <span class="meta-separator">/</span>}
+						{author && <span class="article-author">{author}</span>}
 					</div>
 					<div class="prose">
 						<Content />
