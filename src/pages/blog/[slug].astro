@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import '../../styles/global.css';
 import '../../styles/blog.css';
 import { blogName } from '../../constants.ts';
-import Footer from '../../components/Footer.astro';
+import Footer from '../../components/footer/Footer.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
