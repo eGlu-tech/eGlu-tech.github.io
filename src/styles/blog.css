@@ -25,11 +25,10 @@
     letter-spacing: 0.05em;
 }
 
-.article-author-wrapper {
-    font-size: 0.8rem;
+.meta-separator {
     color: var(--text-muted);
-    font-family: 'Space Grotesk', sans-serif;
-    opacity: 0.8;
+    opacity: 0.4;
+    user-select: none;
 }
 
 .article-author {
