@@ -1,5 +1,5 @@
 ---
-name: "Siddhant AI"
+name: "Ai"
 github: "https://github.com/eglu-tech"
 ---
 

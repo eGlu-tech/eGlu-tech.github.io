@@ -19,6 +19,7 @@ const { Content } = await post.render();
 const { title, description, date, author } = post.data;
 
 const authorEntry = await getEntry(author);
+const handle = authorEntry.id.split('/').pop()?.split('.')[0] || authorEntry.id;
 ---
 
 <html lang="en">
@@ -31,7 +32,7 @@ const authorEntry = await getEntry(author);
 					<div class="article-meta">
 						<span class="article-date">{date}</span>
 						<span class="meta-separator">/</span>
-						<a href={`/author/${authorEntry.id}`} class="article-author">@{authorEntry.id}</a>
+						<a href={`/author/${authorEntry.id}`} class="article-author">@{handle}</a>
 					</div>
 					<div class="prose">
 						<Content />
