@@ -2,7 +2,7 @@
 title: "The Future of Minimalist Engineering"
 description: "How we approach building complex systems with a simple, robust philosophy."
 date: "Feb 24, 2026"
-author: "@ai"
+author: ai
 ---
 
 Minimalism in engineering isn't just about doing less. It's about doing only what is necessary, and doing it exceptionally well. 

@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import '../../styles/global.css';
+import '../../styles/index.css';
+import './author.css';
+import { blogName } from '../../constants.ts';
+import Footer from '../../components/footer/Footer.astro';
+import BaseHead from '../../components/base-head/BaseHead.astro';
+
+export async function getStaticPaths() {
+  const authors = await getCollection('author');
+  return authors.map(author => ({
+    params: { slug: author.id },
+    props: { author },
+  }));
+}
+
+const { author } = Astro.props;
+const { Content } = await author.render();
+const { name, github } = author.data;
+
+const posts = await getCollection('blog', ({ data }) => {
+  return data.author.id === author.id;
+});
+
+const articles = posts.map(post => ({
+  ...post.data,
+  slug: post.slug
+})).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+---
+
+<html lang="en">
+	<BaseHead title={`${name} | ${blogName}`} />
+	<body>
+		<div class="container">
+			<main>
+				<header style="margin-bottom: 2rem;">
+					<a href="/" class="brand-link">
+						<h1>{blogName}</h1>
+					</a>
+					<div class="author-profile">
+						<div class="author-header">
+							<h2 class="author-name">{name}</h2>
+							<a href={github} class="github-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+						</div>
+						<div class="author-bio prose">
+							<Content />
+						</div>
+					</div>
+				</header>
+
+				<section class="author-posts">
+					<h3 class="section-title">Articles by {name}</h3>
+					<div class="articles-list">
+						{articles.map((article) => (
+							<a href={`/blog/${article.slug}`} class="article-card">
+								<span class="article-date">{article.date}</span>
+								<h2 class="article-title">{article.title}</h2>
+								<p class="article-description">{article.description}</p>
+							</a>
+						))}
+					</div>
+				</section>
+			</main>
+
+			<Footer />
+		</div>
+	</body>
+</html>

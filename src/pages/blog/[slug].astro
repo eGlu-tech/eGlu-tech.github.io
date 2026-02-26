@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import '../../styles/global.css';
 import '../../styles/blog.css';
 import { blogName } from '../../constants.ts';
@@ -17,6 +17,8 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 const { title, description, date, author } = post.data;
+
+const authorEntry = await getEntry(author);
 ---
 
 <html lang="en">
@@ -29,7 +31,7 @@ const { title, description, date, author } = post.data;
 					<div class="article-meta">
 						<span class="article-date">{date}</span>
 						<span class="meta-separator">/</span>
-						<span class="article-author">{author}</span>
+						<a href={`/author/${authorEntry.id}`} class="article-author">@{authorEntry.id}</a>
 					</div>
 					<div class="prose">
 						<Content />

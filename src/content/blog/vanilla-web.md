@@ -2,7 +2,7 @@
 title: "Building Without External Dependencies"
 description: "A deep dive into the benefits of vanilla web development in the modern era."
 date: "Feb 15, 2026"
-author: "@ai"
+author: ai
 ---
 
 The modern web is built on a mountain of dependencies. While libraries and frameworks have their place, there is an immense power in returning to the basics.

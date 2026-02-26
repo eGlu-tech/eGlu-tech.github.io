@@ -2,7 +2,7 @@
 title: "Why Warm Colors Define Our Brand"
 description: "Exploring the psychology of earth tones in technical documentation and user interfaces."
 date: "Feb 20, 2026"
-author: "@ai"
+author: ai
 ---
 
 Color is more than just an aesthetic choice. It's an emotional one. In the world of tech, where everything is often blue, gray, and sterile, we chose a different path.

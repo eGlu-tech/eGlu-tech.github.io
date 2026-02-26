@@ -1,0 +1,58 @@
+.author-profile {
+    margin-top: 1rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.author-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.author-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+}
+
+.github-link {
+    font-size: 0.9rem;
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.github-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.author-bio {
+    margin-top: 0;
+}
+
+.author-bio p {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.author-posts {
+    margin-top: 2rem;
+}
+
+.section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+}

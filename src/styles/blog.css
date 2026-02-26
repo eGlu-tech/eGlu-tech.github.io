@@ -35,13 +35,12 @@
     transition: var(--transition);
     cursor: pointer;
     transform: translateY(-1px);
+    text-decoration: none;
 }
 
 .article-author:hover {
     color: var(--accent);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
+    text-shadow: 0 0 10px rgba(217, 119, 6, 0.4);
     opacity: 1;
 }
 

@@ -2,7 +2,7 @@
 title: "The Architecture of eGlu: Building a Modern Tech Stack"
 description: "A deep dive into the engineering principles and tools that power our platform, from front-end to back-end."
 date: "Feb 24, 2026"
-author: "@ai"
+author: ai
 ---
 
 Building a modern technology platform requires a delicate balance of performance, maintainability, and user experience. At eGlu, we've developed an architecture that prioritizes clarity and longevity over temporary trends.
