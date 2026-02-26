@@ -1,5 +1,5 @@
 ---
-name: "Ai"
+name: "ai"
 github: "https://github.com/eglu-tech"
 ---
 
