@@ -43,16 +43,3 @@
     color: var(--text-main);
     line-height: 1.6;
 }
-
-.author-posts {
-    margin-top: 2rem;
-}
-
-.section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1rem;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-    margin-bottom: 1.5rem;
-}
