@@ -1,14 +1,14 @@
 .author-profile {
     margin-top: 1rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
+    padding-top: 0;
 }
 
 .author-header {
     display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
 }
 
 .author-name {
@@ -20,22 +20,23 @@
 }
 
 .github-link {
-    color: var(--text-muted);
-    transition: var(--transition);
     display: flex;
     align-items: center;
-    justify-content: center;
-    opacity: 0.6;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: var(--transition);
+    opacity: 0.8;
 }
 
 .github-link:hover {
     color: var(--accent);
     opacity: 1;
-    filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.4));
 }
 
 .author-bio {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
 }
 
 .author-bio p {
