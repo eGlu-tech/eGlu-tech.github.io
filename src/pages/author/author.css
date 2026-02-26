@@ -1,43 +1,46 @@
 .author-profile {
     margin-top: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
 }
 
 .author-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
 }
 
 .author-name {
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: 700;
-    color: var(--accent);
+    color: var(--text-main);
     letter-spacing: -0.04em;
+    line-height: 1;
 }
 
 .github-link {
-    font-size: 0.9rem;
-    font-family: 'Space Grotesk', sans-serif;
     color: var(--text-muted);
-    text-decoration: none;
-    border: 1px solid var(--border);
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
     transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
 }
 
 .github-link:hover {
-    border-color: var(--accent);
     color: var(--accent);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.4));
 }
 
 .author-bio {
-    margin-top: 0;
+    margin-top: 0.5rem;
 }
 
 .author-bio p {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: var(--text-main);
     line-height: 1.6;
+    opacity: 0.9;
 }
