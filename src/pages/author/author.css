@@ -5,7 +5,7 @@
 .author-header {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.35rem;
     margin-bottom: 1.5rem;
 }
 
@@ -19,15 +19,25 @@
 
 .author-meta {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.6rem;
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
 }
 
 .author-handle {
+    color: var(--text-muted);
+    transition: var(--transition);
+    cursor: pointer;
+    text-decoration: none;
     font-weight: 500;
-    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+.author-handle:hover {
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(217, 119, 6, 0.4);
+    opacity: 1;
 }
 
 .meta-separator {
@@ -37,6 +47,7 @@
 .author-links {
     display: flex;
     align-items: center;
+    height: 100%;
 }
 
 .github-link {
@@ -45,6 +56,8 @@
     color: var(--text-muted);
     transition: var(--transition);
     opacity: 0.5;
+    /* Optical alignment for the icon */
+    transform: translateY(1px);
 }
 
 .github-link:hover {
