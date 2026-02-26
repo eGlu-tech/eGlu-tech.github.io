@@ -6,6 +6,7 @@ import './author.css';
 import { blogName } from '../../constants.ts';
 import Footer from '../../components/footer/Footer.astro';
 import BaseHead from '../../components/base-head/BaseHead.astro';
+import Branding from '../../components/branding/Branding.astro';
 
 export async function getStaticPaths() {
   const authors = await getCollection('author');
@@ -26,11 +27,7 @@ const handle = author.id.split('/').pop()?.split('.')[0] || author.id;
 	<body>
 		<div class="container">
 			<main>
-				<header style="margin-bottom: 1rem;">
-					<a href="/" class="brand-link">
-						<h1>{blogName}</h1>
-					</a>
-				</header>
+				<Branding marginBottom="1rem" />
 
 				<section class="author-profile">
 					<div class="author-header">

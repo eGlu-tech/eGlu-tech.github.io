@@ -1,0 +1,36 @@
+.brand-header {
+    margin-bottom: 2rem;
+}
+
+.brand-link {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.brand-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--text-main);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+    transition: var(--transition);
+}
+
+.brand-link:hover .brand-title {
+    color: var(--accent-hover);
+    letter-spacing: -0.05em;
+    text-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+@media (max-width: 640px) {
+    .brand-title { font-size: 1.75rem; }
+}

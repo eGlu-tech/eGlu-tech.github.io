@@ -47,11 +47,6 @@ h1, .article-title, .article-date, .logo, .meta-separator, .article-author {
     text-rendering: optimizeLegibility;
 }
 
-.brand-link {
-    text-decoration: none;
-    display: inline-block;
-}
-
 h1 {
     font-size: 2.25rem;
     font-weight: 700;
@@ -61,12 +56,6 @@ h1 {
     letter-spacing: -0.04em;
     text-wrap: balance;
     transition: var(--transition);
-}
-
-.brand-link:hover h1 {
-    color: var(--accent-hover);
-    letter-spacing: -0.05em;
-    text-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
 }
 
 /* Common Article Elements */

@@ -6,6 +6,8 @@ import { blogName } from '../constants.ts';
 import Footer from '../components/footer/Footer.astro';
 import BaseHead from '../components/base-head/BaseHead.astro';
 
+import Branding from '../components/branding/Branding.astro';
+
 const posts = await getCollection('blog');
 // Sort by date (you might need a real date object for perfect sorting, but this works for now)
 const articles = posts.map(post => ({
@@ -19,12 +21,7 @@ const articles = posts.map(post => ({
 	<body>
 		<div class="container">
 			<main>
-				<header style="margin-bottom: 1.5rem;">
-					<a href="/" class="brand-link">
-						<h1>{blogName}</h1>
-					</a>
-					<p class="subtitle">Notes on technology, design, and engineering.</p>
-				</header>
+				<Branding showSubtitle={true} marginBottom="1.5rem" />
 
 				<div class="articles-list">
 					{articles.map((article) => (

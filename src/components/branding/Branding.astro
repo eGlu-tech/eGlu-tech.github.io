@@ -1,0 +1,18 @@
+---
+import { blogName } from '../../constants.ts';
+import './branding.css';
+
+interface Props {
+    showSubtitle?: boolean;
+    marginBottom?: string;
+}
+
+const { showSubtitle = false, marginBottom } = Astro.props;
+---
+
+<header class="brand-header" style={marginBottom ? `margin-bottom: ${marginBottom}` : undefined}>
+    <a href="/" class="brand-link">
+        <h1 class="brand-title">{blogName}</h1>
+    </a>
+    {showSubtitle && <p class="subtitle">Notes on technology, design, and engineering.</p>}
+</header>
