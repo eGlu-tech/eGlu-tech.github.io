@@ -1,43 +1,42 @@
-# Astro Starter Kit: Minimal
+# eGlu.tech
 
-```sh
-npm create astro@latest -- --template minimal
-```
+**Minimalist Engineering & The Vanilla Web.**
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+eGlu.tech is a high-performance, minimalist blog built with Astro. It adheres to a "Warm Minimalism" aesthetic—dark stone tones with amber accents—and prioritizes the "Vanilla Web" (Standard Web APIs and Vanilla CSS).
 
-## 🚀 Project Structure
+## 🪐 Philosophy
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Minimalist Engineering:** Simplicity and performance over feature bloat.
+- **The Vanilla Web:** No Tailwind, no CSS-in-JS, no unnecessary dependencies.
+- **Warm Minimalism:** Human-centric, technical, but approachable design.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## 🛠 Technical Stack
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- **Framework:** [Astro](https://astro.build) (Static Site Generation).
+- **Styling:** Vanilla CSS with CSS Variables.
+- **Typography:** 
+  - Headings: `Space Grotesk`
+  - Body: `Inter`
+- **Content:** Markdown via Astro Content Collections.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 🚀 Development
 
-Any static assets, like images, can be placed in the `public/` directory.
+### Commands
 
-## 🧞 Commands
+| Command | Action |
+| :--- | :--- |
+| `npm install` | Installs dependencies |
+| `npm run dev` | Starts local dev server at `localhost:4321` |
+| `npm run build` | Build the production site to `./dist/` |
+| `npm run preview` | Preview the production build locally |
 
-All commands are run from the root of the project, from a terminal:
+### Engineering Mandates
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+As defined in `GEMINI.md`:
+- **Autonomous Workflow:** Changes are committed immediately after completion.
+- **Conventional Commits:** Use `feat:`, `fix:`, `style:`, `refactor:`, etc.
+- **Component Architecture:** Colocate logic and styles (e.g., `src/components/name/` contains `.astro` and `.css`).
 
-## 👀 Want to learn more?
+## 📡 Deployment
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Managed via GitHub Actions. Deployment is triggered manually via **Workflow Dispatch** on the `master` branch.
