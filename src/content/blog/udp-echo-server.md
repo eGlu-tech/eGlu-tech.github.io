@@ -11,7 +11,7 @@ Until a router establishes a NAT mapping, incoming packets cannot be forwarded t
 
 I didn't want to get bogged down in the complexities of full NAT traversal, especially for P2P-style communication. Up until now, I had a simple workaround: client devices sent "junk" UDP packets to the server every 8 seconds to keep the mapping alive.
 
-Recently, however, some ISPs (especially Jio) started blocking these outbound "heartbeats." Interestingly, I found that if the server actually *responds* to these packets, the connection remains stable.
+Recently, however, some ISPs (especially Jio) started blocking these outbound "heartbeats." Interestingly, we found that if the server actually *responds* to these packets, the connection remains stable.
 
 But there's a catch: handling these responses in a userspace process adds significant overhead. To solve this scalability problem, I started looking into tools provided by the Linux kernel.
 
