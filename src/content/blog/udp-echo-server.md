@@ -1,50 +1,50 @@
 ---
-title: "UDP Echo Server For NAT"
-description: "Writing UDP Echo Server with Linux Kernel"
+title: "A Low-Level UDP Echo Server for NAT Traversal"
+description: "Exploring XDP, iptables, and nftables to build a high-performance UDP echo server in the Linux kernel."
 date: "Mar 17, 2026"
 author: sku
 ---
 
-One problem with udp based system is with nat. Ipv6 is supposed to solve this. Since every device will global reachable address.
-For now we have to deal with the nat. Until router have nat mapping, packets cannot be forwarded in side the private subnet. To make it work packets have to be originated from inside first then we can send
-Now i don’t want to go in nat transversal and all that esp for p2p.
-Until now one way was working, client devices were sending junk udp packet to the server every 8 secs.
-Now some routers started blocking them, esp jio one. But once we started responding back to those 8s packets it started working.
+A common challenge with UDP-based systems is navigating **NAT (Network Address Translation)**. While IPv6 is designed to solve this by giving every device a globally reachable address, for now, we still have to contend with NAT's limitations.
 
-But that's additional overhead reaching the userspace process.
-To solve this scalability problem, I reached out to some tools given by the linux kernel.
+Until a router establishes a NAT mapping, incoming packets cannot be forwarded to a device inside a private subnet. To make this work, packets must first originate from the *inside*. 
 
-## iptables
-- Iptables is a legacy filtering and processing tool given by linux kernel.
-- Were using it to drop the nat packets. Before it can even hit conntrack-ing.
-- But cannot use it to reflect the back. very limited cannot do much.
+I didn't want to get bogged down in the complexities of full NAT traversal, especially for P2P-style communication. Up until now, we had a simple workaround: client devices sent "junk" UDP packets to the server every 8 seconds to keep the mapping alive.
 
-## eBPF/XDP (eXpress Data Path)
+Recently, however, some ISPs (especially Jio) started blocking these outbound "heartbeats." Interestingly, we found that if the server actually *responds* to these packets, the connection remains stable.
 
-- XDP runs directly in the network driver (or even on the NIC hardware), processing packets before the kernel even allocates an sk_buff (socket buffer).
-- By "reflecting" the packet at the lowest possible layer, we can avoid the entire overhead of the Linux networking stack, context switching to user-space, and memory copying.
-- Writing a small C-based eBPF program that swaps the Source/Destination MACs and IPs, then returns XDP_TX to transmit the packet back out to the same interface.
-- Needs to Manually calculate checksums of ethernet, ip, udp.
+But there's a catch: handling these responses in a userspace process adds significant overhead. To solve this scalability problem, I started looking into tools provided by the Linux kernel.
 
-I felt its too low level, i was feeling unsafe working at that level.
+## The Evolution of the Solution
 
-## nftables
+### 1. iptables
+`iptables` is the legacy filtering and processing tool in the Linux kernel. We were already using it to drop certain NAT packets before they even hit the connection tracking (`conntrack`) system. However, `iptables` is quite limited when it comes to "reflecting" packets back; it just isn't designed for that level of manipulation.
 
-- Nftables is a new filtering and processing tool given by linux kernel. Modern alternative to iptables.
-- safer than XDP because the kernel handles the low-level memory safety, but it’s faster than a user-space process because the packet stays in the kernel.
-- Nftable is way easier to maintain than iptables rules. We can maintain the chains and rules in .nft script files.
+### 2. eBPF / XDP (eXpress Data Path)
+XDP runs directly in the network driver (or even on the NIC hardware), processing packets before the kernel even allocates an `sk_buff` (socket buffer).
 
-There are multiple protocol levels and hook i can put my reflection logic. 
-After doing some research i figure out ip level and prerouting hook before conntrack is a good place to put my logic.
+By "reflecting" the packet at the lowest possible layer, we can avoid the entire overhead of the Linux networking stack, context switching to user-space, and memory copying. I experimented with a small C-based eBPF program that:
+- Swaps the Source/Destination MAC addresses.
+- Swaps the Source/Destination IPs.
+- Returns `XDP_TX` to transmit the packet back out the same interface.
 
-Documentation is badly lacking for these essential tools. I can’t find any good resources, i have to do trial and error in script until it started working.
-Apart from that, the script is quite clear what's happening.
-once note, since its stateless nat, values have to be hardcoded. we can maintain a dynamic map but again its kinda like nat only. So just hardcode. 
-i was thinking if i can extract src ip from the interface but i couldn't find anything.
+The downside? It's *too* low-level. You have to manually calculate checksums for Ethernet, IP, and UDP headers. I felt a bit unsafe working at that level for this specific task.
 
-## code
+### 3. nftables
+`nftables` is the modern alternative to `iptables`. It's safer than XDP because the kernel handles low-level memory safety, but it's much faster than a user-space process because the packet stays entirely within the kernel.
 
-https://gist.github.com/sku0x20/6d0c93595d949c1c1cac3dd4d2155da6
+I found `nftables` much easier to maintain. You can organize your logic into chains and rules within `.nft` script files. After some research, I determined that the `prerouting` hook at the IP level (before `conntrack`) was the ideal place for the reflection logic.
 
-## reference
-https://people.netfilter.org/pablo/nf-hooks.png
+## The "Trial and Error" Reality
+
+Documentation for these essential low-level tools is surprisingly sparse. I couldn't find many clear resources, so it took a lot of trial and error with the scripts until things finally clicked.
+
+One important note: since this is a stateless reflection, certain values (like the source IP to reflect from) currently need to be hardcoded. While we could maintain a dynamic map, that starts looking like NAT all over again. I was hoping to dynamically extract the source IP from the interface itself, but haven't found a clean way to do that yet.
+
+## The Implementation
+
+You can find the final `nftables` configuration in this Gist:
+[UDP Echo Server via nftables](https://gist.github.com/sku0x20/6d0c93595d949c1c1cac3dd4d2155da6)
+
+## References
+- [Netfilter Hooks Diagram](https://people.netfilter.org/pablo/nf-hooks.png)
