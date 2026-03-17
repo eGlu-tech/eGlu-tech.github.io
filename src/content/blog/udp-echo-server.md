@@ -9,9 +9,9 @@ A common challenge with UDP-based systems is navigating **NAT (Network Address T
 
 Until a router establishes a NAT mapping, incoming packets cannot be forwarded to a device inside a private subnet. To make this work, packets must first originate from the *inside*. 
 
-I didn't want to get bogged down in the complexities of full NAT traversal, especially for P2P-style communication. Up until now, we had a simple workaround: client devices sent "junk" UDP packets to the server every 8 seconds to keep the mapping alive.
+I didn't want to get bogged down in the complexities of full NAT traversal, especially for P2P-style communication. Up until now, I had a simple workaround: client devices sent "junk" UDP packets to the server every 8 seconds to keep the mapping alive.
 
-Recently, however, some ISPs (especially Jio) started blocking these outbound "heartbeats." Interestingly, we found that if the server actually *responds* to these packets, the connection remains stable.
+Recently, however, some ISPs (especially Jio) started blocking these outbound "heartbeats." Interestingly, I found that if the server actually *responds* to these packets, the connection remains stable.
 
 But there's a catch: handling these responses in a userspace process adds significant overhead. To solve this scalability problem, I started looking into tools provided by the Linux kernel.
 
@@ -39,7 +39,7 @@ I found `nftables` much easier to maintain. You can organize your logic into cha
 
 Documentation for these essential low-level tools is surprisingly sparse. I couldn't find many clear resources, so it took a lot of trial and error with the scripts until things finally clicked.
 
-One important note: since this is a stateless reflection, certain values (like the source IP to reflect from) currently need to be hardcoded. While we could maintain a dynamic map, it started to look like what conntrack is doing: maintaining the source-destination mappings. I was hoping to dynamically extract the source IP from the interface itself, but haven't found a clean way to do that yet.
+One important note: since this is a stateless reflection, certain values (like the source IP to reflect from) currently need to be hardcoded. While I could maintain a dynamic map, it started to look like what conntrack is doing: maintaining the source-destination mappings. I was hoping to dynamically extract the source IP from the interface itself, but haven't found a clean way to do that yet.
 
 ## The Implementation
 
