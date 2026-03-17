@@ -18,7 +18,7 @@ But there's a catch: handling these responses in a userspace process adds signif
 ## The Evolution of the Solution
 
 ### 1. iptables
-`iptables` is the legacy filtering and processing tool in the Linux kernel. We were already using it to drop certain NAT packets before they even hit the connection tracking (`conntrack`) system. However, `iptables` is quite limited when it comes to "reflecting" packets back; it just isn't designed for that level of manipulation.
+`iptables` is the legacy filtering and processing tool in the Linux kernel. I was already using it to drop certain NAT packets before they even hit the connection tracking (`conntrack`) system. However, `iptables` is quite limited when it comes to "reflecting" packets back; it just isn't designed for that level of manipulation.
 
 ### 2. eBPF / XDP (eXpress Data Path)
 XDP runs directly in the network driver (or even on the NIC hardware), processing packets before the kernel even allocates an `sk_buff` (socket buffer).
