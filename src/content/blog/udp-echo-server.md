@@ -39,7 +39,7 @@ I found `nftables` much easier to maintain. You can organize your logic into cha
 
 Documentation for these essential low-level tools is surprisingly sparse. I couldn't find many clear resources, so it took a lot of trial and error with the scripts until things finally clicked.
 
-One important note: since this is a stateless reflection, certain values (like the source IP to reflect from) currently need to be hardcoded. While we could maintain a dynamic map, that starts looking like NAT all over again. I was hoping to dynamically extract the source IP from the interface itself, but haven't found a clean way to do that yet.
+One important note: since this is a stateless reflection, certain values (like the source IP to reflect from) currently need to be hardcoded. While we could maintain a dynamic map, it started to look like what conntrack is doing: maintaining the source-destination mappings. I was hoping to dynamically extract the source IP from the interface itself, but haven't found a clean way to do that yet.
 
 ## The Implementation
 
