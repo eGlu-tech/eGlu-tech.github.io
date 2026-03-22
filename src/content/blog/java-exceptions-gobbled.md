@@ -1,42 +1,52 @@
 ---
-title: "Java Exceptions Gobbled"
-description: "Exploring XDP, iptables, and nftables to build a high-performance UDP echo server in the Linux kernel."
+title: "Java Exceptions Gobbled: The ThreadPool Trap"
+description: "Debugging silent failures in asynchronous Java code and understanding why ThreadPools might be swallowing your exceptions."
 date: "Mar 22, 2026"
 author: sku
 ---
 
-The other day when I was trying to debug an issue, I couldn't find any error logs. I looked everywhere, loki, system err, system out, container logs, nowhere to be found.
-Since it was running on production, I cannot just attach the debugger. So static analysis it was.
-It went through all the paths and still no clue why it wasn’t working. No clue to be found where it was crashing.
+The other day, while debugging a production issue, I hit a frustrating wall: there were no error logs. I searched everywhere—Loki, `stderr`, `stdout`, container logs—but found nothing. Since the application was running in production, I couldn't simply attach a debugger. I had to rely on static analysis.
 
-I tried recreating the same issue locally where I can attach a debugger, but I couldn't. But I got another peculiar issue, intellij step over was getting stuck.
+I traced every code path, yet I couldn't find a single clue as to why the system was failing or where it might be crashing.
 
-Anyways it was unrelated to the issue at hand, so i continued my way statically, after multiple static analysis and with still no clue, I was done.
-Time to increase log verbosity. I added some new log statements and deployed the changed code. I made sure to only log for the particular device to reduce the verbosity, a custom log function which checks device id before logging the message.
+## The Local Reproduction Struggle
 
-I got where it's failing, typical printf debugging. And after some data checking, I figured it was trying to query a non-existent row. The query data was corrupted.
+I tried to recreate the issue locally to use a debugger, but the failure wouldn't trigger. However, I did notice a peculiar side effect: IntelliJ's "Step Over" feature would occasionally get stuck at the end of a `Runnable`. While seemingly unrelated to the main issue, it added another layer of complexity to the investigation.
 
-But what is intriguing is, if the db query is failing, why isn’t it being logged. Where are the logs?
-Why are they missing? It's like java is consuming exceptions.
+Eventually, I decided to increase log verbosity. I added targeted logging—using a custom function to filter by device ID to minimize noise—and redeployed the code.
 
-And sure it was;
-The issue was, since this part of the code is async, I am running it in a separate threadpool.
-And the way threadpool handles unhandled exceptions, it first checks for exception handler in its thread factory, if not there, it falls back to global exceptional handler. NOOP being the default.
+This classic "printf debugging" finally revealed the culprit. The code was attempting to query a non-existent row because the query data had become corrupted.
 
-Looks like an easy fix, added a global exception handler. But while testing again, no exception logs.
+## The Mystery of the Missing Logs
 
-I was pissed at this point, I was like just wrap the runnable in try catch and be done.
-But then again, java’s the industry standard and what not. It should not be this pita. There has to be something I was missing, down the rabbit hole we go.
+This discovery raised a more intriguing question: if a database query was failing, why wasn't it being logged? Why was Java seemingly "consuming" these exceptions?
 
-And after some research I figured try catch is the best solution.
-The thing is, when you submit or schedule ThreadPools, return future, and that future will capture any unhandled exceptions that happen for that particular runnable. It will throw it back when you call .get(), but I don’t need that, futures are useless to me.
+The answer lay in the asynchronous nature of the code. This specific logic was running in a dedicated `ThreadPool`.
 
-So the best option is to create a wrapper LoggingRunnable which takes a Runnable and wraps it in try catch.
-Some decisions by the Java community I don't really get. Like they're shoving futures down the throats.
-I can still use execute in ThreadPools which will not create future but scheduled threadpool i can’t. It will always create a scheduled future. Even though I don’t want it, I am still paying the cost.
+When a `ThreadPool` encounters an unhandled exception, it follows a specific lookup chain:
+1. It checks for an `UncaughtExceptionHandler` in its `ThreadFactory`.
+2. If not found, it falls back to the global `UncaughtExceptionHandler`.
+3. By default, this is often a `NOOP`.
 
-It could be so much better if the exception handler still works, and we have a way to opt out of this future thing.
+I initially thought I had an easy fix: I added a global exception handler. But during subsequent testing, the logs remained silent.
 
-Also, the intellij gets stuck on step over; it looks like there's some bug in intellij, when you step over at the last line of runnable, it gets stuck.
-So rather than step over at the end, just continue.
+## The Future Trap
 
+At this point, I considered simply wrapping the `Runnable` in a `try-catch` block and moving on. However, I wanted to understand why the "industry standard" behavior was so unintuitive.
+
+Down the rabbit hole I went.
+
+After some research, I realized that my intuition about the `try-catch` block was actually the most robust solution. When you `submit()` or `schedule()` tasks to a `ThreadPoolExecutor`, it returns a `Future`. This `Future` captures any unhandled exceptions that occur during execution.
+
+The catch? Those exceptions are only thrown back to you when you call `Future.get()`. Since I was firing off tasks and ignoring the `Future` objects, the exceptions were being captured and held silently, never reaching the logs.
+
+## The Solution: A Logging Wrapper
+
+Certain design decisions in the Java ecosystem—specifically the push towards `Future`-based APIs—can lead to these "silent failure" traps. While you can use `execute()` on a standard `ThreadPoolExecutor` to avoid `Future` creation, `ScheduledThreadPoolExecutor` always returns a `ScheduledFuture`, even if you don't need it.
+
+To solve this consistently and ensure no exception is ever "gobbled" again, the best approach is to create a wrapper `LoggingRunnable`. This wrapper takes a `Runnable` and explicitly catches any `Throwable` to log it before re-throwing.
+
+By wrapping tasks in this manner, I regained visibility into asynchronous failures without relying on the unpredictable behavior of global handlers or unused `Future` objects.
+
+### A Note on IntelliJ
+Regarding the "Step Over" issue: it appears to be a known quirk in IntelliJ where the debugger can hang if you step over the last line of a `Runnable`. The workaround is simple: instead of stepping over the final line, just use "Resume Program" (F9) to continue execution.
