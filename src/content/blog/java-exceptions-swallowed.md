@@ -1,5 +1,5 @@
 ---
-title: "Java Exceptions Gobbled: The ThreadPool Trap"
+title: "Java Exceptions Swallowed: The ThreadPool Trap"
 description: "Debugging silent failures in asynchronous Java code and understanding why ThreadPools might be swallowing your exceptions."
 date: "Mar 22, 2026"
 author: sku
@@ -44,7 +44,7 @@ The catch? Those exceptions are only thrown back to you when you call `Future.ge
 
 Certain design decisions in the Java ecosystem—specifically the push towards `Future`-based APIs—can lead to these "silent failure" traps. While you can use `execute()` on a standard `ThreadPoolExecutor` to avoid `Future` creation, `ScheduledThreadPoolExecutor` always returns a `ScheduledFuture`, even if you don't need it.
 
-To solve this consistently and ensure no exception is ever "gobbled" again, the best approach is to create a wrapper `LoggingRunnable`. This wrapper takes a `Runnable` and explicitly catches any `Throwable` to log it before re-throwing.
+To solve this consistently and ensure no exception is ever "swallowed" again, the best approach is to create a wrapper `LoggingRunnable`. This wrapper takes a `Runnable` and explicitly catches any `Throwable` to log it before re-throwing.
 
 By wrapping tasks in this manner, I regained visibility into asynchronous failures without relying on the unpredictable behavior of global handlers or unused `Future` objects.
 
