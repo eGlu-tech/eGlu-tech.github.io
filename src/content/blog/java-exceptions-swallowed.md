@@ -40,13 +40,15 @@ After some research, I realized that my intuition about the `try-catch` block wa
 
 The catch? Those exceptions are only thrown back to you when you call `Future.get()`. Since I was firing off tasks and ignoring the `Future` objects, the exceptions were being captured and held silently, never reaching the logs.
 
-## The Solution: A Logging Wrapper
+## The Solution: A Logging Wrapper and Delegate Pattern
 
 Certain design decisions in the Java ecosystem—specifically the push towards `Future`-based APIs—can lead to these "silent failure" traps. While you can use `execute()` on a standard `ThreadPoolExecutor` to avoid `Future` creation, `ScheduledThreadPoolExecutor` always returns a `ScheduledFuture`, even if you don't need it.
 
-To solve this consistently and ensure no exception is ever "swallowed" again, the best approach is to create a wrapper `LoggingRunnable`. This wrapper takes a `Runnable` and explicitly catches any `Throwable` to log it before re-throwing.
+To solve this consistently and ensure no exception is ever "swallowed" again, the best approach is to create a wrapper `LoggingRunnable`. This wrapper uses the **delegate pattern**: it takes a `Runnable`, wraps the call to `run()` in a `try-catch` block, and logs any `Throwable` before re-throwing it.
 
-By wrapping tasks in this manner, I regained visibility into asynchronous failures without relying on the unpredictable behavior of global handlers or unused `Future` objects.
+To further automate this, I implemented `LoggingThreadPools` (and a corresponding `LoggingScheduledThreadPool`). These also follow the delegate pattern: they wrap a standard `ExecutorService` and automatically intercept any `Runnable` passed to them, wrapping it in a `LoggingRunnable` before execution.
+
+By using these delegates, I regained visibility into asynchronous failures without needing to manually wrap every task or rely on the unpredictable behavior of global handlers and unused `Future` objects.
 
 ### A Note on IntelliJ
 Regarding the "Step Over" issue: it appears to be a known quirk in IntelliJ where the debugger can hang if you step over the last line of a `Runnable`. The workaround is simple: instead of stepping over the final line, just use "Resume Program" (F9) to continue execution.
