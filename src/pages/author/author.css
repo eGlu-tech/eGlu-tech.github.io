@@ -81,3 +81,14 @@
     text-wrap: pretty;
     margin-bottom: 1.5rem;
 }
+
+.author-bio h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+}
