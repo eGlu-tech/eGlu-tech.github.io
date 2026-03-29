@@ -1,88 +1,70 @@
 ---
-title: "ThreadLocal Optimizations And Project Loom"
-description: "Debugging silent failures in asynchronous Java code and understanding why ThreadPools might be swallowing your exceptions."
+title: "ThreadLocal Optimizations and Project Loom"
+description: "An optimization journey from identifying high-allocation hot paths with Async Profiler to leveraging ThreadLocal, and why Project Loom is forcing us to rethink these classic patterns."
 date: "Mar 29, 2026"
 author: sku
 ---
 
-This is going to be one of those optimization episodes where simple tricks can yield good performance.
+This is going to be one of those optimization episodes where simple tricks can yield massive performance gains.
 
-First, let’s talk about profilers,
-There are multiple profilers in java ecospace,
-But the 2 most important ones are Java Flight Recorder, and Async Profiler.
+A few years ago, I found myself deep in the weeds of a performance bottleneck. To find the culprit, I had to look at profilers. In the Java ecosystem, you've got two heavy hitters: **Java Flight Recorder (JFR)** and **Async Profiler**.
 
-Java Flight Recorder is provided by the java or openjdk itself. Whereas Async Profiler is written by Andrei Pangin.
-In github async profiler you can find what all things its doing better than JFR. like safepoint bias, capturing native stackframes, etc.
+JFR is the "official" choice, built right into the OpenJDK. Then there’s Async Profiler, written by Andrei Pangin. If you check out the Async Profiler GitHub, you'll see a long list of why it’s often the better choice—handling safepoint bias, capturing native stack frames, and more.
 
-I used async profiler extensively to profile and figure out the patterns. Not that i could not use JFR, actually jfr gives much more data than async profiler, but due to it taking 100% cpu when attaching it. It deoptimizes the methods which affect the performance significantly.
+In my case, I used Async Profiler extensively to figure out the patterns. It's not that JFR isn't good—it actually gives you *more* data—but I’ve seen it take 100% CPU just by attaching it. When that happens, it deoptimizes methods, which completely messes with the performance you're trying to measure in the first place.
 
-Anyways, async profiler has multiple modes, cpu, wall clock, alloc, being the most important and most used.
-One good thing about it is it can generate .jfr files. And we can use any .jfr viewer to read the data.
+## Choosing the Right View
 
-There is Java Mission Control given by the openJDK, then there is VisualVM, and lastly there is Intellij Idea profiler which can read jfr.
+Async Profiler has multiple modes (CPU, wall-clock, allocation), but the best part is it can generate `.jfr` files. This means you can use any JFR viewer to read the data. 
 
-I mostly use idea one, it highlights the methods code is spending time in, where allocations are happening and the graphs are good and other relevant details. If more extensive analysis is required, JMC or VisualVM is that way. Tbh i still don’t understand their UI. :(
+You’ve got Java Mission Control (JMC), VisualVM, and the IntelliJ IDEA profiler. Personally, I mostly use the IntelliJ one. It's great at highlighting where code is spending time and where allocations are happening. If I need a truly deep dive, I'll open JMC or VisualVM, though I’ll be honest: **I still don’t really understand their UIs. :(**
 
-Anyways, lets move on to the interesting part. The quick optimizations.
+## The Hunt for the Hot Path
 
-Since our physical devices send so much data, this data is encrypted. Encryption and decryption is the hot path we will try to optimize here.
+Our physical devices send a *ton* of data, and all of it is encrypted. Naturally, encryption and decryption became the "hot path" I needed to optimize.
 
-After reading the flame graphs over multiple days, I figure if we can optimize this path somehow.
-Of course db queries will be no lagging behind, but they were not in the hot path.
-Encrypt and Decrypt is the hot path, since every packet has to go through this flow.
+I spent days reading flame graphs. While database queries were there, they weren't the bottleneck. Every single packet has to go through the encrypt/decrypt flow, and in our case, the code was creating brand-new encryptor and decryptor instances for every single packet. This was creating a mountain of objects.
 
-Since we are allocating less now, less objects are getting created. That means, our memory is being filled slowly so we have more time before the next gc is triggered, and since objects are less gc will have less time collecting.
-It's one of the problems with garbage collected languages. When gc runs it takes your cpu, so sometimes, cpu spikes are the result of too much allocations.
-In this case if we can reduce that we are good.
+In garbage-collected languages, too many allocations mean the memory fills up quickly, triggering GC more often. When GC runs, it steals your CPU. Those random CPU spikes you see? Often, it's just the collector trying to keep up with too many objects. If we could reduce those allocations, we'd be in the clear.
 
-The Solution, "ThreadLocal"
+## The Solution: "ThreadLocal"
 
-Ok, before we do that, let's understand how we can reduce the allocations of the encryptor and decryptor.
+But how do you reduce allocations for these components? 
 
-Let’s start small, a single encryptor, now since it is not thread safe, if multiple threads try to encrypt with it, it would fail or worse it would output corrupted data.
-So, an easy solution, let’s use a lock; the problem: it's not scalable at all. It will be a huge bottleneck.
+If you use a single encryptor or decryptor, they’re not thread-safe. If multiple threads hit them at once, you’ll get corrupted data or a crash. You could use a lock, but that’s a scalability nightmare. It would be a huge bottleneck.
 
-So what's a better way, since only one thread can use an encryptor at a time, let’s maintain a set of encryptors and use them to do encryption. A simple implementation would be a wrapper which maintains a list of encryptors and randomly selects one and uses a lock/synchronized primitive to do the encryption.
+A better way is **Object Pooling**—letting a client "borrow" an instance and return it when done. This is something Go does extensively, even for strings. There are good libraries out there that do this, but the problem is the cost of locking. Borrowing and returning have to be atomic, which introduces its own overhead.
 
-But we can do better. We can let the client borrow the encryptor and return it after it has used it.
-They can perform things with it without locking primitives since that encryptor will be exclusive to them.
-This idea is called Object Pooling. And Golang does it extensively, even for the strings.
+So, I looked at **ThreadLocal**. The concept is simple: it allows you to store data that is accessible only by a specific thread. It’s like a static variable, but instead of being shared globally, each thread gets its own completely independent copy of the object.
 
-The downside is, when borrowing and returning, the operations have to be atomic. And making sure the object is returned back can be tricky to implement.
+Since the encryptor and decryptor were already encapsulated within wrappers, I didn't have to "let loose" the raw instances to the client. This gave me the freedom to change how they were managed internally without affecting the rest of the code. My primary concern was avoiding the locking overhead of an atomic pool at the point.
 
-Anyways, since I am not going to let loose the encryptor, it would always be under a wrapper. My only concern was making the pool atomic, which involves locking which could be avoided better.
+For this case, ThreadLocal was the perfect fit. No locking, no constant allocations, and almost no code changes. Scaling was built-in: if I increased the thread count, my instances increased; if I reduced them, they scaled down.
 
-So comes ThreadLocal. Threadlocal concept is simple, you can make a object threadlocal and can access it anywhere in code. Its like static but only within that threads content. This access anywhere idea is used by most JVM frameworks. But it has some issues now. We will come to that later.
+The next time I profiled, that hot stack frame for allocations had basically vanished. It felt great.
 
-For this case, ThreadLocal is the best way, no locking, no allocations, nothing, and code wise no changes apart from saying this a threadlocal. Scaling wise also not much issues, if i increase the thread count my encryptors will increase if i reduce they will reduce.
+## The Loom Challenge
 
-It works great, next time I profiled, it's like this hot stack frame doesn’t exist.
+Now, for the "demerits." 
 
-Now to the demerits,
-Why does golang not have threadlocals??
-Cause there are no threads. lol.
-No to be serious, problem is multiple coroutines can use the same threads,
-Or a single coroutine can use multiple threads.
-And we don’t know when it's going to be scheduled or where.
-So it can leave the encryptor in invalid state.
+Why doesn't Go have ThreadLocals? Well, because there are no threads. **lol.** 
 
-So the best solution is object pooling which you can see used extensively in the golang ecosystem.
+But seriously, the problem is that multiple coroutines can use the same thread, or a single coroutine can hop between multiple threads. You don't know when or where it’s going to be scheduled, so a ThreadLocal could leave your encryptor in an invalid state for the next task.
 
-How is this related to java/jvm?
-Since the introduction of virtual threads by project loom, the threadlocal concept is gone. It can’t be used.
-So our solution to using threadlocal as a pool to reduce allocation of resources is gone.
-But I also mentioned how these frameworks are using ThreadLocal to store and retrieve data.
-That's a different problem, which object pooling cannot solve, so Java is introducing a new concept called Scoped Values. Which these frameworks can use. Its like being tired to the content of Virtual Thread.
+This brings us to Java and **Project Loom**. 
 
-Why not make VirtualThread Local?
-Well Scoped Values are kind of like that, but they don't solve the encryptor problem.
-Since I can create 100 virtual threads, each for a packet, I don't want to create an encryptor for each packet.
-We can tweak it since we have both virtual threads and threads but the best option with virtual threads is object pooling.
+Most JVM frameworks use `ThreadLocal` to store and retrieve contextual data anywhere in the code. It’s a convenient way to pass state without threading it through every single method signature. But with the introduction of Virtual Threads, the old `ThreadLocal` pattern is effectively broken for these scenarios. You can't just create a `ThreadLocal` for a million virtual threads—you'd run out of memory instantly.
 
-Where are the graphs?
-I did all this 2 yrs back, i tried to find the graphs, but they were lost during the time i migrated from the old pc.
+To solve this specific data-sharing problem, Java is introducing a new concept called **Scoped Values**. They’re designed for Virtual Threads, providing a way to share data within a scope without the massive memory overhead of `ThreadLocal`.
 
+However, Scoped Values don't solve the "reusable resource" problem. If you're using Virtual Threads and you need to share a limited resource like our encryptor, you're back to Object Pooling. Even with the cost of making those operations atomic, there really isn't a better alternative when you're dealing with virtual threads or goroutines.
 
-## links
-https://github.com/async-profiler/async-profiler
-https://stackoverflow.com/questions/78188660/java-flight-recorderjfr-consumes-100-cpu-when-its-supposed-to-have-only-1-2
+## Wrapping Up
+
+Optimization is a journey. Sometimes the "old" way (ThreadLocal) is exactly what you need for a specific architecture, and sometimes the "new" way (Virtual Threads) forces you to rethink everything.
+
+*Where are the graphs? I did all this about two years ago, and unfortunately, the original flame graphs were lost during a PC migration. But the lesson—and the performance boost—stuck with me.*
+
+## Links
+- [Async Profiler GitHub](https://github.com/async-profiler/async-profiler)
+- [JFR CPU Overhead Discussion](https://stackoverflow.com/questions/78188660/java-flight-recorderjfr-consumes-100-cpu-when-its-supposed-to-have-only-1-2)
