@@ -16,7 +16,7 @@
 - **CSS Architecture:**
   - `global.css`: Shared tokens, layout, branding (header/footer).
   - `index.css`: Front-page article list and card-specific styles.
-  - `blog.css`: Long-form prose and post-specific meta-logic.
+  - `src/pages/blog/blog.css`: Long-form prose and post-specific meta-logic.
   - **Component Styles:** Colocated within component directories (e.g., `src/components/footer/footer.css`).
 
 ## 3. Design Tokens & Constraints
