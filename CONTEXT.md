@@ -15,7 +15,7 @@
   - Body: `Inter` (Legibility, modern).
 - **CSS Architecture:**
   - `global.css`: Shared tokens, layout, branding (header/footer).
-  - `index.css`: Front-page article list and card-specific styles.
+  - `src/pages/index.css`: Front-page article list and card-specific styles.
   - `src/pages/blog/blog.css`: Long-form prose and post-specific meta-logic.
   - **Component Styles:** Colocated within component directories (e.g., `src/components/footer/footer.css`).
 
