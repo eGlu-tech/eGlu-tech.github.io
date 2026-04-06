@@ -1,91 +1,77 @@
 ---
-title: "Blue Green with Iptables"
-description: ""
+title: "Zero-Downtime Deployments with Iptables Blue-Green"
+description: "A technical walkthrough of achieving zero-downtime deployments using iptables and conntrack for a performance-critical backend."
 date: "Apr 6, 2026"
 author: sku
 ---
 
-The backend takes time to boot up which is enough to be considered as downtime. Missing critical packets, requests, etc.
-In a real time system, even 1s of downtime can cause multiple issues.
+A backend that takes time to boot is a backend that causes downtime. In a real-time system, even a few seconds of unavailability can lead to missed packets, failed requests, and a poor user experience.
 
-It used to take ~4min, but now after some optimizations it's reduced to ~30s.
+Our backend used to take about 4 minutes to boot. After some heavy optimizations, we've brought that down to 30 seconds—but 30 seconds is still 30 seconds too long. Initially, we mitigated this by deploying only at night to minimize disturbance. However, that wasn't a sustainable solution. I needed true zero-downtime deployments.
 
-Before I enabled zero downtime deployment for the backend, we used to deploy at night to reduce the disturbance.
-Actually this is the first thing I did, so I never deployed like that.
+### The Deployment Workflow
 
-Right Now, flow is very simple, you run github actions, which is manually triggered, it runs the tests, and creates a github release.
-That github release triggered a webhook to the server, where it pulls the image, and runs the swap script.
+Today, our flow is relatively simple. A manually triggered GitHub Action runs tests, builds the project, and creates a release. This release triggers a webhook on our server, which pulls the new image and executes a custom `swap.sh` script.
 
-Swap script is pretty simple, it maps the outside ports to inside ports.
-The script has 2 sets of ports. We store the currently running set reference in a mapped.txt file.
-This way swap knows which ports are being used by the currently running image.
+The script manages two sets of internal ports. We keep track of the currently active set in a `mapped.txt` file. The idea is to map an external port (e.g., 1000) to one of two internal ports (1001 or 1002) depending on which version is currently live.
 
-So idea is pretty simple,
-You have 1000 which swap script maps to 1001 or 1002 depending on context. Ie. which image is already running.
+Here’s how the `swap.sh` script works:
 
-So steps are like this,
-Github triggers webhook
-Download the latest image from github release
-Symlink the image to this downloaded image
-Run swap.sh
-figure out which image type is being run by reading mapped.txt
-Initialize new and old ports variables.
-Start the new image providing new ports.
-After its running, it is validated by health check.
-Swap the external ports mapping to new ports from old.
-Send termination signal to old image.
+1. **Trigger:** The webhook receives the signal.
+2. **Download:** Pull the latest image from the GitHub release.
+3. **Symlink:** Update the symlink to point to the new image.
+4. **Identify:** Read `mapped.txt` to determine which port set is active.
+5. **Provision:** Initialize variables for the new and old ports.
+6. **Launch:** Start the new container on the new ports.
+7. **Health Check:** Wait for the new instance to pass a health check.
+8. **Swap:** Redirect external traffic to the new ports using `iptables`.
+9. **Cleanup:** Send a termination signal to the old instance.
 
-Now Swapping external ports mapping to internals is done with help of iptables.
-Fundamentally, i need not even go into iptables level and could just run a proxy in front which does it for me.
-But again, we are talking about performance here, another hop introduction will definitely decrease that.
+### Why Iptables?
 
-On a side note, prev. K8s used to have its own proxy which does traffic redirections, but for quite some time, they have switched over to using iptables.
-Its way more performant.
-Now idk, we have quite more options, CNI, eBPF, etc.
+When it comes to swapping traffic, I could have used a standard proxy like Nginx or HAProxy. However, for a performance-critical system, every millisecond counts. Adding another hop introduces latency.
 
-Anyways, Where are the commands?
+Interestingly, Kubernetes used its own proxy for traffic redirection for a long time before switching to `iptables` for better performance. Nowadays, there are even faster options like eBPF and advanced CNIs, but `iptables` remains a solid, battle-tested choice for this scale.
 
-> to add
-```
+#### The Traffic Swap Commands
+
+To add the new mapping:
+```bash
 iptables -A PREROUTING -t nat -p udp -m udp --dport ${EXTERNAL_PORTS[0]} -j DNAT --to-destination :${NEW_MAPPING[0]}
 ```
-> to delete
+
+To delete the old mapping:
+```bash
+iptables -D PREROUTING -t nat -p udp -m udp --dport ${EXTERNAL_PORTS[0]} -j DNAT --to-destination :${CURRENT_MAPPING[0]}
 ```
- iptables -D PREROUTING -t nat -p udp -m udp --dport ${EXTERNAL_PORTS[0]} -j DNAT --to-destination :${CURRENT_MAPPING[0]}
+
+### The "Sticky Connection" Problem: Conntrack
+
+A major hurdle I encountered was that `iptables` only routes *new* connections. Existing connections remain pinned to the old ports because of how NAT works.
+
+Linux uses a system called `conntrack` (connection tracking) to map source tuples to destination tuples. To ensure all traffic immediately moves to the new instance, we must flush the tracking table:
+
+```bash
+conntrack -F
 ```
 
-Quite evident.
+I discovered this necessity the hard way—by watching packets drop during a swap until I realized the stateful nature of the existing flows.
 
-But one problem is there, it will only route your new connections; the old one will still point to old ports.
-That is because of nat.
+### Internal Routing and the OUTPUT Chain
 
-So theres a thing called conntrack it tracks/maps the src tuple to the destination tuple, so it knows where to send back the packet.
-We need to flush that table so connections are mapped properly to new mapping.
-ie. `conntrack -F`.
+Another quirk appeared with our Nginx configuration. Nginx always points to `8080` as its upstream. However, the `PREROUTING` chain doesn't capture packets generated internally on the same machine.
 
-Now the 2nd problem,
-Since I don't want 2 places to update mapping and all.
-My nginx config always has 8080 as upstream.
-But it won’t work.
+To handle these internally routed packets, you must also apply the rules to the `OUTPUT` chain. Additionally, you need to ensure internal forwarding is enabled:
 
-The issue is that the PREROUTING chain doesn’t capture the internally routed packets.
-For that we have to use the OUTPUT chain.
-And then it works.
+```bash
+sudo sysctl -w net.ipv4.ip_forward=1
+```
 
-But there is one quirk, to do internal routing we need to enable internal forwarding.
-`sudo sysctl -w net.ipv4.ip_forward=1`
+If things don't work as expected, you can always use `tcpdump` to capture packets or `ss` to check for dropped packets. That’s how I finally figured out the `conntrack` issue—the packets were being dropped.
 
-After this everything should work flawlessly.
-If things don't work you can always use tcpdump to capture packets or netstat/ss to check the dropped packets.
+### Closing Thoughts
 
-Thats how i figured about the conntrack, the packets were dropping.
+Some might consider `iptables` a legacy tool, and I've certainly thought about moving to `nftables`. But as the saying goes: "If it isn't broken, don't fix it." It works exceptionally well for our current needs.
 
-Anyways, iptables is a legacy tool at this moment. I want to replace all this with Nftables. But idk, this is working quite well, as they say, don’t touch if it isn’t broken.
-
-
-Why no k8s or something else.
-I researched docker but it doesn’t support this kind of thing, you can run multiple services but update is not rolling or blue green, its shutdown all then bring all back up. Unlike k8s.
-As for k8s, its a huge system on its own. It was not needed when I started, but now I am exploring it.
-Helm, operators, cni, etc. trying to understand the abstraction and their uses.
-Integrations with aws, gcp, etc. like pod roles, etc.
-
+**Why not K8s or Docker Swarm?**
+I researched Docker’s native capabilities, but they often default to "stop then start" rather than true blue-green or rolling updates without extra complexity. As for Kubernetes, it’s a massive ecosystem. While I’m currently exploring Helm, operators, and cloud integrations (AWS/GCP), it felt like overkill when I started this project. Sometimes, a well-placed `iptables` rule is all you really need.
