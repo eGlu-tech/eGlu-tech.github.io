@@ -58,7 +58,7 @@
     text-wrap: pretty;
 }
 
-.prose h1, .prose h2, .prose h3 {
+.prose h1, .prose h2, .prose h3, .prose h4 {
     font-family: 'Space Grotesk', sans-serif;
     color: var(--text-main);
     letter-spacing: -0.02em;
@@ -73,6 +73,14 @@
 
 .prose h2 {
     font-size: 1.45rem;
+}
+
+.prose h3 {
+    font-size: 1.25rem;
+}
+
+.prose h4 {
+    font-size: 1.1rem;
 }
 
 .prose ul, .prose ol {
