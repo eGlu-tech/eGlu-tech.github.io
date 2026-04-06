@@ -1,5 +1,5 @@
 ---
-title: "Zero-Downtime Deployments with Iptables Blue-Green"
+title: "Zero-Downtime Deployments with Iptables"
 description: "A technical walkthrough of achieving zero-downtime deployments using iptables and conntrack for a performance-critical backend."
 date: "Apr 6, 2026"
 author: sku
