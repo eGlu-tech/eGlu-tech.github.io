@@ -80,6 +80,7 @@
     opacity: 0.92;
     text-wrap: pretty;
     margin-bottom: 1.5rem;
+    white-space: pre-wrap;
 }
 
 .author-bio h3 {
