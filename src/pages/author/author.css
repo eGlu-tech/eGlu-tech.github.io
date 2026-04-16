@@ -113,3 +113,17 @@
     font-size: 0.9em;
     border: 1px solid var(--border);
 }
+
+.author-bio blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 0.5rem 1rem;
+    margin: 1.5rem 0;
+    background-color: rgba(217, 119, 6, 0.05);
+    font-style: italic;
+    color: var(--text-main);
+    opacity: 0.95;
+}
+
+.author-bio blockquote p {
+    margin-bottom: 0;
+}

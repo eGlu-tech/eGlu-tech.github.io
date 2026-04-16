@@ -108,6 +108,20 @@
     padding-left: 1.5rem;
 }
 
+.prose blockquote {
+    border-left: 4px solid var(--accent);
+    padding: 0.5rem 1rem;
+    margin: 1.5rem 0;
+    background-color: rgba(217, 119, 6, 0.05);
+    font-style: italic;
+    color: var(--text-main);
+    opacity: 0.95;
+}
+
+.prose blockquote p {
+    margin-bottom: 0;
+}
+
 .prose li {
     margin-bottom: 0.5rem;
     font-size: 1rem;
