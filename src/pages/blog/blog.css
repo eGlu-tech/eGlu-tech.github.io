@@ -76,11 +76,31 @@
 }
 
 .prose h3 {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
+    font-weight: 700;
 }
 
 .prose h4 {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.prose code {
+    background-color: var(--surface);
+    color: var(--text-main);
+    padding: 0.15rem 0.35rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+    border: 1px solid var(--border);
+}
+
+.prose pre code {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    color: inherit;
+    font-size: inherit;
 }
 
 .prose ul, .prose ol {

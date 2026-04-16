@@ -82,13 +82,34 @@
     margin-bottom: 1.5rem;
 }
 
+.author-bio h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+}
+
 .author-bio h4 {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1.15rem;
     font-weight: 600;
     color: var(--text-main);
     letter-spacing: -0.02em;
-    margin-top: 0;
+    margin-top: 1.5rem;
     margin-bottom: 0.75rem;
     line-height: 1.2;
+}
+
+.author-bio code {
+    background-color: var(--surface);
+    color: var(--text-main);
+    padding: 0.15rem 0.35rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+    border: 1px solid var(--border);
 }
