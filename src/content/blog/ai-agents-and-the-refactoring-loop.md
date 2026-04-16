@@ -154,7 +154,7 @@ Sometimes I don't even require it because I can do that in the outer loop itself
 
 I do this in the ide. As I can just highlight and ask, no need to obstruct my flow.
 
-## conclusion
+## Conclusion
 
 So is the ui/frontend gone?
 for boilerplate, yes, but there are quite other things in that world too, making a scalable ui, code has to be clean, that time, refactoring comes into picture and the moment refactoring comes into picture, Ai's doesn't work. So yeah, nothing has changed fundamentally; prev it was ui editors that generated the boilerplate now it's Ai.
@@ -163,13 +163,13 @@ Glorified Code Generators and Search And Replace.
 Ai can help you in a generalized sense, but when refactoring it is about localized scope and not just rewriting in different syntax. Refactoring is about understanding the control flow and rewriting it for benefits.
 
 ### W's
-Boilerplate code -> configs/iac, etc.
-One shot tasks -> scripts, etc.
-Search And Replace
+- Boilerplate code -> configs/iac, etc.
+- One shot tasks -> scripts, etc.
+- Search And Replace
 
 ### L's
-Decision maker/taker
-Refactoring where brain power is required to get clean code
+- Decision maker/taker
+- Refactoring where brain power is required to get clean code
 
 
 > this article is in all written by me without any AI cleanup, post-processing by AI. The only thing used is spell check. It would be funny to have the direct dependency on AI in an article about AI...
