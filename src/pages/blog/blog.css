@@ -143,3 +143,58 @@
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
 }
+
+/* GitHub Gist Dark Mode Overrides */
+.gist .gist-file {
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+}
+
+.gist .gist-data {
+    background-color: var(--surface) !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+
+.gist .gist-meta {
+    background-color: var(--bg) !important;
+    color: var(--text-muted) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.gist .gist-meta a {
+    color: var(--accent) !important;
+    text-decoration: none;
+}
+
+.gist .gist-meta a:hover {
+    text-decoration: underline;
+}
+
+.gist .blob-pre {
+    background: transparent !important;
+    color: var(--text-main) !important;
+}
+
+.gist .blob-num {
+    color: var(--text-muted) !important;
+    background-color: transparent !important;
+    border-right: 1px solid var(--border) !important;
+    opacity: 0.5;
+}
+
+.gist .blob-code-inner {
+    color: var(--text-main) !important;
+    font-family: 'JetBrains Mono', monospace !important;
+}
+
+/* Syntax Highlighting for Gists */
+.gist .pl-c  { color: var(--text-muted) !important; font-style: italic; } /* comment */
+.gist .pl-k  { color: #ff7b72 !important; } /* keyword */
+.gist .pl-s  { color: #a5d6ff !important; } /* string */
+.gist .pl-en { color: #d2a8ff !important; } /* entity/function */
+.gist .pl-v  { color: #ffa657 !important; } /* variable */
+.gist .pl-c1 { color: #79c0ff !important; } /* constant */
+.gist .pl-ent { color: #7ee787 !important; } /* tag */
+.gist .pl-smi { color: var(--text-main) !important; } /* property */
+.gist .pl-bu { color: #ff7b72 !important; } /* built-in */
