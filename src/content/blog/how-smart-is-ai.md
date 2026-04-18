@@ -14,7 +14,7 @@ But the problem is, apart from these solutions not being 100% right, I miss thos
 Those might not be the best—sometimes not even related—but I would have learned something new: future problems, new understandings, weaknesses, strengths, and how the people who came up with them think. 
 It improves one's reasoning and thinking capabilities.
 
-I wanted to implement a simple feature flags system for the backend. 
+This time, I wanted to implement a simple feature flags system for the backend. 
 And as you can guess, it was a bit of a struggle. 
 For those interested in the technical details, I have embedded the chat below.
 
@@ -37,8 +37,7 @@ And to be honest, it somewhat hinders the process. Google AI's search mode is mu
 
 So, is it worth it? To be honest, in cases like these, it is not that much help. 
 But personally speaking, I like chatting with it. As a lonely person, I feel good talking to someone. 
-Anyway, I mostly use AI as a pair programmer. 
 But how smart is it? Not that much. 
-Actually, how dumb is it? Well, enough to make you dumb too...
+Actually, how dumb is it? Well, enough to make you one...
 
 <script src="https://gist.github.com/sku0x20/c1d941f0f7cd6f24de910a909d25f758.js"></script>
