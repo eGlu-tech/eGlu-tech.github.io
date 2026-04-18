@@ -40,7 +40,7 @@ But personally speaking, I like chatting with it. As a lonely person, I feel goo
 But how smart is it? Not that much. 
 Actually, how dumb is it? Well, enough to make you one...
 
-`I tried with Claude CLI, but it should be applicable with other AIs also.`
+> I tried with Claude CLI, but it should be applicable with other AIs also.
 
 <details>
 <summary>View the full chat transcript</summary>
