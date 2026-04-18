@@ -1,6 +1,6 @@
 ---
-title: "How Smart is AI? Can it design or is it even a good at pairing?"
-description: ""
+title: "How Smart is AI?"
+description: "can it design or is it even a good at pairing?"
 date: "Apr 18, 2026"
 author: sku
 ---
