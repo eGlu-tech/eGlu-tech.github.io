@@ -43,4 +43,4 @@ Anyway, mostly I use Ai as a pair programmer. As a lonely person, i feel good ta
 But how smart is it? Not that much.
 Actually, how dumb it is? Well, enough to make you too...
 
-// todo: embedded the chat
+<script src="https://gist.github.com/sku0x20/c1d941f0f7cd6f24de910a909d25f758.js"></script>
