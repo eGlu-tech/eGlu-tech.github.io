@@ -40,7 +40,7 @@ But personally speaking, I like chatting with it. As a lonely person, I feel goo
 But how smart is it? Not that much. 
 Actually, how dumb is it? Well, enough to make you one...
 
-> **Note:** This interaction was recorded using the Claude CLI, but the logic and results should be similar with other advanced AI models.
+> I tried with Claude CLI, but it should be applicable with other AIs also.
 
 <details>
 
