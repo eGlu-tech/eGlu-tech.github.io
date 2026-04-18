@@ -144,19 +144,50 @@
     margin-bottom: 1.5rem;
 }
 
-/* GitHub Gist Dark Mode Overrides */
-body .gist .gist-file {
-    border: 1px solid var(--border) !important;
-    border-radius: 8px !important;
-    overflow: hidden;
-    filter: invert(0.9) hue-rotate(180deg) brightness(1.2);
+/* Expandable Content (Details/Summary) */
+.prose details {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    background-color: var(--surface);
+    transition: var(--transition);
 }
 
-body .gist .gist-meta {
-    background-color: #f0f0f0 !important; /* Will be inverted to dark */
-    color: #333 !important; /* Will be inverted to light */
+.prose summary {
+    padding: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--accent);
+    outline: none;
+    user-select: none;
+    list-style: none; /* Remove default arrow */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-body .gist .gist-data {
-    border-bottom: 1px solid #ddd !important;
+.prose summary::-webkit-details-marker {
+    display: none;
+}
+
+.prose summary::before {
+    content: '→';
+    transition: transform 0.2s ease;
+}
+
+.prose details[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.prose details[open] summary {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+}
+
+.prose details .gist {
+    padding: 1rem;
+}
+
+.prose details[open] {
+    background-color: transparent;
 }

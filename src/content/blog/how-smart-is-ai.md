@@ -40,4 +40,9 @@ But personally speaking, I like chatting with it. As a lonely person, I feel goo
 But how smart is it? Not that much. 
 Actually, how dumb is it? Well, enough to make you one...
 
+<details>
+<summary>View the full chat transcript</summary>
+
 <script src="https://gist.github.com/sku0x20/c1d941f0f7cd6f24de910a909d25f758.js"></script>
+
+</details>
