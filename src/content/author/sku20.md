@@ -1,8 +1,8 @@
 ---
-name: "sku20"
+name: "Siddhant"
 github: "https://github.com/sku0x20"
 ---
 
-#### Backend & Infra Engineer / kittee
+#### Sr Systems Architect
 
 Focused on systems, control, and minimalism.
