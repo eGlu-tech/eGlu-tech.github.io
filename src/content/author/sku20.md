@@ -1,5 +1,5 @@
 ---
-name: "sku"
+name: "sku20"
 github: "https://github.com/sku0x20"
 ---
 

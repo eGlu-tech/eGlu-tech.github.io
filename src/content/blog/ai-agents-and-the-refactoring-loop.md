@@ -2,7 +2,7 @@
 title: "Ai, Agents and the Refactoring Loop"
 description: "After spending quite some time with ai tools; here are my takes. How it helps and how it slows down;"
 date: "Apr 16, 2026"
-author: sku
+author: sku20
 ---
 
 After spending quite some time with AI tools, here are my takes.
