@@ -1,42 +1,40 @@
 ---
 title: "Avoid - A Void Linux Distribution"
-description: ""
-date: "June 9, 2026"
+description: "Creating a minimalist, server-oriented Linux distribution based on Void Linux to escape the bloat of systemd and unnecessary firmware."
+date: "Jun 9, 2026"
 author: sku20
 ---
 
-I wanted a minimal system which i can use for build machines and sometimes for recovery. it was frustrating to find anything like this.
-every distro i tested was bloated. i thought server distros will be smaller in size but they too same issue.
+I wanted a minimal system that I could use for build machines and occasional recovery. It was frustratingly difficult to find something that fit the bill; every distribution I tested felt bloated. Even "server" variants often came with more than I needed.
 
-after trying out some, i settled for void. i was going for debian but systemd just too bloated. after i tasted the minimalism. its hard to go back.
-i tested its fork devuan but things just didn't felt right. its like too much magic is going on.
-i tried zypper based tumbleweed. specifiucally qemu image, its quite small, but still something felt disturbing.
-maybe systemd.
+## The Quest for Minimalism
 
-So i made a custom linux distribution based on void.
+After trying several options, I eventually settled on Void Linux. I had considered Debian, but systemd felt too heavy for my tastes. Once you experience true minimalism, it's hard to go back. I even tried Devuan (a systemd-free fork of Debian), but it didn't feel quite right—there was too much "magic" happening behind the scenes.
 
-problem with void is its a user distro but i want a server one. it includes so many unecessary firmware blobs and all.
-like wifi and sound.
-i have removed most of the packages but kernel modules remain. i didn't wanted to build the kernel so i left them as is for now.
+I also experimented with OpenSUSE Tumbleweed, specifically the QEMU image. While relatively small, something still felt "off"—likely the presence of systemd again.
 
-it was a journey, sparse files, zerofilling, and the regular chroot and install stuff thing.
-i like the void tooling. xchroot specifically its setup up things for me.
-i like the packages also not that convuluted. easy to query the dependencies, list files, etc.
-void also follows the minimalism principle. what i felt it lacked was a server distro.
+## Why Void?
 
-Void docs are very clean and straightforward unlike other distros. where you can't find info at the same place. its scattered all over the place.
+So, I decided to build a custom distribution based on Void. The primary issue with standard Void is that it’s geared toward desktop users. It includes many unnecessary firmware blobs for things like Wi-Fi and sound that have no place on a server or build box.
 
-as the minimalism person i am, i avoid their tool also like mklive and all. i went with more of a hands-on approach. custom build script. tbh its much simpler and all.
-i am only using the necessary tools.
+While I haven't gone as far as building a custom kernel yet (the modules remain for now), I've stripped out most of the unnecessary packages.
 
-anyways, i have 2 files, one .qcow2 which can be used
+What I love about Void is the tooling. `xchroot` in particular makes the setup process incredibly smooth. The package management isn't convoluted; it's easy to query dependencies, list files, and understand what's happening on your system. Void follows a philosophy of minimalism that resonates with me, but it lacked a dedicated server-first implementation.
 
-also, the releases are github-actions based, it was tricky to get it to work but its working now.
+The documentation is also a breath of fresh air: clean, straightforward, and centralized, unlike many other distros where information is scattered across fragmented wikis.
 
-next step would be to create a container image and use that to build itself. for now i am pretty happy with the result.
+## Building "Avoid"
 
-also, i added some minimalistic defaults for zsh, and yes i am using zsh as default user shell. and sh is symlinked to dash.
+In keeping with the minimalist theme, I avoided using their high-level tools like `mklive`. Instead, I took a hands-on approach with a custom build script. Honestly, it's much simpler and gives me total control over the environment.
 
-i am really pleased on how fast boot is. ~300MB of ram consumtion and countable processes.
+The process involved the usual suspects: sparse files, zerofilling, and the standard `chroot` installation routine.
 
-check out https://github.com/sku0x20/avoid
+Currently, the releases are automated via GitHub Actions. It was tricky to get the pipeline stable, but it's fully functional now. I'm providing a `.qcow2` image that's ready to boot.
+
+## Results and Next Steps
+
+I’m really pleased with the performance. The system boots incredibly fast, consumes only about 300MB of RAM, and runs a very small number of processes. I've also included some minimalistic defaults for Zsh (the default user shell), and `sh` is symlinked to `dash` for speed.
+
+The next step is to create a container image and use that to build the distribution itself. For now, I’m very happy with the result.
+
+Check out the project here: [github.com/sku0x20/avoid](https://github.com/sku0x20/avoid)
