@@ -121,7 +121,7 @@ Cloudflare tried solving the scale problem with a sliding window counter — two
 
 Can rolling windows replace TB entirely? No. Even the sliding window log still lets you fire all 10 requests in the first millisecond. No spacing. They're all `count-based` — how many in this period? TB is `rate-based` — how long since the last one? The token drip rate enforces the gap. No window algorithm can do that. Different job.
 
-One more thing worth knowing. Our TB impls are continuous because tokens are calculated lazily. What if we ran a bg job to refill them instead, say once per second? TB becomes a fixed window. Continuity is lost, and so is the spacing. The more continuous the refill, the better the spacing. In routers and hardware, TB fills at every clock cycle — still a staircase, but so fast it's practically a line.
+Side note. In-process TB impls are continuous because tokens are calculated lazily. What if we ran a bg job to refill them instead, say once per second? TB becomes a fixed window. Continuity is lost, and so is the spacing. The more continuous the refill, the better the spacing. In routers and hardware, TB fills at every clock cycle. Still a staircase, but so fast it's practically a line.
 
 On distribution: TB is easy in-process but hard in a distributed system. It requires shared, continuously-updated state. Tokens and last_updated need to be in sync across nodes. Fixed Window is easy there, a single atomic INCR in Redis is enough.
 
