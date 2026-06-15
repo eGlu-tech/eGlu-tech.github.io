@@ -122,7 +122,7 @@ In that case, TB becomes a fixed window. Continuity is lost, and so is the spaci
 
 In routers and hardware, TB fills tokens at every clock cycle. Still a staircase technically, but filled so fast it's practically a straight line.
 
-One last caveat: TB is easy to implement in-process but hard in a distributed system. TB requires shared, continuously-updated state — tokens and last_updated need to be in sync across nodes, which requires coordination. Fixed Window is easy there: a single atomic INCR in Redis does the job. But that makes sense — they serve different purposes.
+One last caveat: TB is easy to implement in-process but hard in a distributed system. TB requires shared, continuously-updated state — tokens and last_updated need to be in sync across nodes, which requires coordination. Fixed Window is easy there: a single atomic INCR in Redis does the job.
 
 Use flow control to stop your services from blowing up under heavy load.
 Use quota to enforce limits — usually business requirements, directly or indirectly. OTP attempts, download caps, login throttling.
