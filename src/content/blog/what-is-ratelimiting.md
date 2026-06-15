@@ -94,43 +94,7 @@ so its cannot enforce these limits properly. its not made for quota control.
 
 for that we need something like window. and windows are typically not continuous.
 
-<svg viewBox="0 0 640 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;display:block;margin:1.5rem 0">
-
-  <!-- Token Bucket — left panel (plot: x 55–295, y 25–185) -->
-  <text x="175" y="14" text-anchor="middle" fill="#a8a29e" font-size="11" font-family="Space Grotesk,sans-serif">Token Bucket</text>
-  <line x1="55" y1="25" x2="55" y2="185" stroke="#44403c" stroke-width="1"/>
-  <line x1="55" y1="185" x2="295" y2="185" stroke="#44403c" stroke-width="1"/>
-  <line x1="55" y1="45" x2="295" y2="45" stroke="#292524" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="50" y="49" text-anchor="end" fill="#78716c" font-size="10" font-family="Inter,sans-serif">b</text>
-  <text x="175" y="202" text-anchor="middle" fill="#78716c" font-size="10" font-family="Inter,sans-serif">time →</text>
-  <text x="16" y="110" text-anchor="middle" fill="#78716c" font-size="10" font-family="Inter,sans-serif" transform="rotate(-90,16,110)">tokens</text>
-  <!-- sawtooth: diagonal refill, sharp drops on request arrival -->
-  <polyline points="55,165 100,45 112,85 118,105 165,45 178,85 225,45 237,77 248,109 295,45"
-    fill="none" stroke="#d97706" stroke-width="2" stroke-linejoin="round"/>
-
-  <!-- Fixed Window — right panel (plot: x 350–620, y 25–185) -->
-  <text x="485" y="14" text-anchor="middle" fill="#a8a29e" font-size="11" font-family="Space Grotesk,sans-serif">Fixed Window</text>
-  <line x1="350" y1="25" x2="350" y2="185" stroke="#44403c" stroke-width="1"/>
-  <line x1="350" y1="185" x2="620" y2="185" stroke="#44403c" stroke-width="1"/>
-  <line x1="350" y1="45" x2="620" y2="45" stroke="#292524" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="345" y="49" text-anchor="end" fill="#78716c" font-size="10" font-family="Inter,sans-serif">limit</text>
-  <text x="485" y="202" text-anchor="middle" fill="#78716c" font-size="10" font-family="Inter,sans-serif">time →</text>
-  <text x="314" y="110" text-anchor="middle" fill="#78716c" font-size="10" font-family="Inter,sans-serif" transform="rotate(-90,314,110)">count</text>
-  <!-- window boundary -->
-  <line x1="485" y1="25" x2="485" y2="185" stroke="#44403c" stroke-width="1" stroke-dasharray="3,3"/>
-  <text x="417" y="218" text-anchor="middle" fill="#57534e" font-size="9" font-family="Inter,sans-serif">← window →</text>
-  <text x="485" y="218" text-anchor="middle" fill="#78716c" font-size="9" font-family="Inter,sans-serif">reset</text>
-  <text x="553" y="218" text-anchor="middle" fill="#57534e" font-size="9" font-family="Inter,sans-serif">← window →</text>
-  <!-- staircase window 1 (5 requests, each step: 27px wide, 28px tall) -->
-  <polyline points="350,185 377,185 377,157 404,157 404,129 431,129 431,101 458,101 458,73 485,73 485,45"
-    fill="none" stroke="#38bdf8" stroke-width="2" stroke-linejoin="miter"/>
-  <!-- reset drop (dashed) -->
-  <line x1="485" y1="45" x2="485" y2="185" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <!-- staircase window 2 -->
-  <polyline points="485,185 512,185 512,157 539,157 539,129 566,129 566,101 593,101 593,73 620,73 620,45"
-    fill="none" stroke="#38bdf8" stroke-width="2" stroke-linejoin="miter"/>
-
-</svg>
+![Token Bucket vs Fixed Window](/graphs/rate-limiting-comparison.svg)
 
 it would be hard to go further without taking a impl.
 lets take the basic fixed window. impl.
