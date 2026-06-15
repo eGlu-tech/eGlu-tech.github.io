@@ -133,3 +133,11 @@ Use quota to enforce limits. Usually business requirements, directly or indirect
 Decide what you want: flow control or quota.
 - Token Bucket → flow control, which IMO fits the definition of rate limit more cleanly.
 - Window → quota control.
+
+## References
+
+- [RFC 1363 — A Proposed Flow Specification](https://datatracker.ietf.org/doc/html/rfc1363)
+- [RFC 2475 — An Architecture for Differentiated Services](https://www.rfc-editor.org/rfc/rfc2475)
+- [RFC 2697 — A Single Rate Three Color Marker](https://www.rfc-editor.org/rfc/rfc2697)
+- [RFC 2698 — A Two Rate Three Color Marker](https://www.rfc-editor.org/rfc/rfc2698)
+- [GCRA — Generic Cell Rate Algorithm (ATM)](https://en.wikipedia.org/wiki/Generic_cell_rate_algorithm)
