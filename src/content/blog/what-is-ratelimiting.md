@@ -52,12 +52,18 @@ Token Bucket has been formalized in multiple rfcs and used in old days with diff
 you might see, Leaky Bucket(counter) but is just mirror image of same algorithm.
 with capacity = burst. and rather than removing token we add token, and if it passes more than capacity we reject the request.
 
-```// insert token bucket formula
+```
+tokens = min(b, tokens + r × Δt)
 
+accept → tokens ≥ 1, tokens -= 1
+reject → tokens < 1
 ```
 
-```// insert leaky bucket formula
+```
+counter = max(0, counter - r × Δt)
 
+accept → counter < b, counter += 1
+reject → counter ≥ b
 ```
 
 Leaky Bucket also have a queue impl. its requires memory to store the
@@ -76,15 +82,29 @@ so its cannot enforce these limits properly. its not made for quota control.
 
 for that we need something like window. and windows are typically not continuous.
 
-```// insert window(staircase) vs TB graph(continous)
+```
+Token Bucket (continuous)            Fixed Window (staircase)
 
+  tokens                               count
+  ^                                    ^
+b |∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ (cap)          |        ________
+  |   /\      /\      /\               |  _____|        |_______
+  |  /  \    /  \    /  \             |_|                       |___
+  | /    \  /    \  /    \            +---+----------+----------+---> t
+  |/      \/      \/      \               |←  1 min →|←  1 min →|
+  +-------------------------> t
 ```
 
 it would be hard to go further without taking a impl.
 lets take the basic fixed window. impl.
 
-```fixed window of 1min with redis impl
+```
+key   = "rl:{user}:{floor(now / 60)}"   # new key every minute
 
+count = INCR key
+if count == 1: EXPIRE key 60            # TTL = window size
+
+if count > limit: REJECT
 ```
 
 so when i say, 10 login/min,
