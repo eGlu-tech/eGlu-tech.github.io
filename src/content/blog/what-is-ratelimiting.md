@@ -130,7 +130,7 @@ which we are fulfilling. so its like a staircase graph. where the counter is res
 
 this is fixed window has to wait until next minute to retry,
 implementations are very simple. easily distributable.  
-rolling windows are hard to implement from scaling pov. cloudflare(insert cloudflare doc) did try to get around it with algorithm which does approximation.
+rolling windows are hard to implement from scaling pov. cloudflare([How we built rate limiting capable of scaling to millions of domains](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/)) did try to get around it with algorithm which does approximation.
 
 ## TB Vs FW
 
