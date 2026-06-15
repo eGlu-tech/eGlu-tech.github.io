@@ -18,7 +18,7 @@ There are 2 things:
 
 ## Flow Control
 
-Flow control goes back to the 80s when networking was starting out. People wrote theses and papers on managing the flow of packets. How a router should behave, what its queue size should be, when to drop. It evolved into the field of network calculus. That's a whole rabbit hole. Let's focus on what's relevant.
+Flow control goes back to the 80s when networking was starting out. People wrote theses and papers on managing the flow of packets. How a router should behave, what its queue size should be, when to drop. It evolved into the field of [network calculus](https://en.wikipedia.org/wiki/Network_calculus). That's a whole rabbit hole. Let's focus on what's relevant.
 
 Flow control means controlling the flow. Packets, requests, whatever. Deciding when to accept, when to drop, and how to handle bursts.
 
@@ -141,4 +141,4 @@ Decide what you want: flow control or quota.
 - [RFC 2697 — A Single Rate Three Color Marker](https://www.rfc-editor.org/rfc/rfc2697)
 - [RFC 2698 — A Two Rate Three Color Marker](https://www.rfc-editor.org/rfc/rfc2698)
 - [GCRA — Generic Cell Rate Algorithm (ATM)](https://en.wikipedia.org/wiki/Generic_cell_rate_algorithm)
-- [Network Calculus](https://en.wikipedia.org/wiki/Network_calculus)
+- [Network Calculus — A Theory of Deterministic Queuing Systems](https://leboudec.github.io/netcal/latex/netCalBook.pdf)
