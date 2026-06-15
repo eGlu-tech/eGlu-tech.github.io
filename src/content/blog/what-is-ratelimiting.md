@@ -113,26 +113,22 @@ It's a staircase. The counter climbs, hits the limit, resets at the window bound
 
 Fixed window means waiting until the next window to retry. Simple to implement, easy to distribute.
 
-There's a known edge case though. At the window boundary, someone could send 10 requests in the last second of minute 1 and 10 more in the first second of minute 2 — 20 requests in ~2 seconds, double the quota. That's the boundary burst problem. Rolling windows, or more precisely the sliding window log, solve it by tracking exact timestamps of every request. Perfectly accurate, no boundary burst, but O(n) memory per user — doesn't scale well.
+There's a known edge case though. At the window boundary, someone could send 10 requests in the last second of minute 1 and 10 more in the first second of minute 2 — 20 requests in ~2 seconds, double the quota. That's the boundary burst problem.
+
+Rolling windows, or more precisely the sliding window log, solve it by tracking exact timestamps of every request. Perfectly accurate, no boundary burst, but O(n) memory per user — doesn't scale well.
 
 Cloudflare tried solving the scale problem with a sliding window counter — two fixed window counters plus weighted math. O(1) memory, not exact, but close enough. [How we built rate limiting capable of scaling to millions of domains](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/).
 
-Can rolling windows replace TB entirely? No. Even the sliding window log — the most precise window implementation — still lets you fire all 10 requests in the first millisecond. No spacing. Doesn't matter how precise the window is, they're all `count-based`. How many in this period? That's all they answer. TB is `rate-based`. How long since the last one? The token drip rate enforces the gap between individual requests. No window algorithm has an equivalent mechanism. Rolling or not. Different job.
+Can rolling windows replace TB entirely? No. Even the sliding window log still lets you fire all 10 requests in the first millisecond. No spacing. They're all `count-based` — how many in this period? TB is `rate-based` — how long since the last one? The token drip rate enforces the gap. No window algorithm can do that. Different job.
 
-## TB vs FW
+One more thing worth knowing. Our TB impls are continuous because tokens are calculated lazily. What if we ran a bg job to refill them instead, say once per second? TB becomes a fixed window. Continuity is lost, and so is the spacing. The more continuous the refill, the better the spacing. In routers and hardware, TB fills at every clock cycle — still a staircase, but so fast it's practically a line.
 
-Our TB impls are continuous because tokens are calculated lazily. What if we ran a bg job to refill them instead, say once per second?
+On distribution: TB is easy in-process but hard in a distributed system. It requires shared, continuously-updated state. Tokens and last_updated need to be in sync across nodes. Fixed Window is easy there, a single atomic INCR in Redis is enough.
 
-TB becomes a fixed window. Continuity is lost, and so is the spacing. Fundamentally, the more continuous the refill, the better the spacing.
-
-In routers and hardware, TB fills at every clock cycle. Still a staircase, but so fast it's practically a line.
-
-One last thing. TB is easy in-process but hard in a distributed system. It requires shared, continuously-updated state. Tokens and last_updated need to be in sync across nodes, which needs coordination. Fixed Window is easy there, a single atomic INCR in Redis is enough.
+In practice: Nginx, HAProxy, and most proxies use TB for traffic shaping. Cloud APIs — AWS, Stripe, Twilio — use windows for quota. But underneath, they're running TB too for flow control. Two layers, two purposes.
 
 Use flow control to stop your services from blowing up under heavy load.
 Use quota to enforce limits. Usually business requirements, directly or indirectly. OTP attempts, download caps, login throttling.
-
-In practice: Nginx, HAProxy, and most proxies use TB for traffic shaping. Cloud APIs — AWS, Stripe, Twilio — use windows for quota. But underneath, they're running TB too for flow control. Two layers, two purposes.
 
 ## tldr;
 
