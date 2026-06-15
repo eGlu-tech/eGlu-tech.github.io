@@ -33,7 +33,7 @@ When a request arrives, it takes a token out of the bucket. Now we got 4 tokens 
 
 The token bucket is continuous, so it provides spacing by default.
 Filling at 5 req/s means one token every 1000/5 = 200ms.
-So each request has to be 200ms apart.
+Once the burst is exhausted, requests have to be 200ms apart.
 
 What about burst?
 
@@ -113,7 +113,7 @@ It's a staircase. The counter climbs, hits the limit, resets at the window bound
 
 Fixed window means waiting until the next window to retry. Simple to implement, easy to distribute.
 
-Rolling windows are harder to scale. Cloudflare ([How we built rate limiting capable of scaling to millions of domains](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/)) tried to work around it with an approximation algorithm.
+There's a known edge case though. At the window boundary, someone could send 10 requests in the last second of minute 1 and 10 more in the first second of minute 2 — 20 requests in ~2 seconds, double the quota. That's the boundary burst problem. Rolling windows solve it by keeping a continuously moving window, but they're harder to scale. Cloudflare ([How we built rate limiting capable of scaling to millions of domains](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/)) tried to work around it with an approximation algorithm.
 
 ## TB vs FW
 
@@ -127,6 +127,8 @@ One last thing. TB is easy in-process but hard in a distributed system. It requi
 
 Use flow control to stop your services from blowing up under heavy load.
 Use quota to enforce limits. Usually business requirements, directly or indirectly. OTP attempts, download caps, login throttling.
+
+In practice: Nginx, HAProxy, and most proxies use TB for traffic shaping. Cloud APIs — AWS, Stripe, Twilio — use windows for quota. But underneath, they're running TB too for flow control. Two layers, two purposes.
 
 ## tldr;
 
