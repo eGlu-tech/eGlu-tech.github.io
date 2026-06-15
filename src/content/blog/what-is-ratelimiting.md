@@ -117,7 +117,7 @@ There's a known edge case though. At the window boundary, someone could send 10 
 
 Cloudflare tried solving the scale problem with a sliding window counter — two fixed window counters plus weighted math. O(1) memory, not exact, but close enough. [How we built rate limiting capable of scaling to millions of domains](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/).
 
-Can rolling windows replace TB entirely? No. A rolling window with 10 req/min still lets you fire all 10 in the first millisecond — no spacing. It's still `count-based`. TB is `rate-based`. Once burst is exhausted, tokens drip in at a fixed rate and that forces spacing. No window-based approach can replicate that, rolling or not. Different job.
+Can rolling windows replace TB entirely? No. Even the sliding window log — the most precise window implementation — still lets you fire all 10 requests in the first millisecond. No spacing. Doesn't matter how precise the window is, they're all `count-based`. How many in this period? That's all they answer. TB is `rate-based`. How long since the last one? The token drip rate enforces the gap between individual requests. No window algorithm has an equivalent mechanism. Rolling or not. Different job.
 
 ## TB vs FW
 
