@@ -5,7 +5,7 @@ date: "Jun 15, 2026"
 author: sku20
 ---
 
-Rate-limiting — just like other overloaded terms. The tech industry likes to throw out words and change their intended meaning. I do feel rate-limit has multiple meanings inherently, but it's never made clear which one.
+Rate-limiting — just like other overloaded terms. The tech industry likes to throw out words and change their intended meaning. I do feel rate-limit has multiple meanings inherently, but the docs and references that use it rarely make it evident which one they mean.
 
 So I'll try to decipher the rate-limiting concepts today, without using the word rate-limit.
 
@@ -122,7 +122,7 @@ In that case, TB becomes a fixed window. Continuity is lost, and so is the spaci
 
 In routers and hardware, TB fills tokens at every clock cycle. Still a staircase technically, but filled so fast it's practically a straight line.
 
-One last caveat: TB is easy to implement in-process but hard in a distributed system. Fixed Window is easy there. But they serve different purposes, so it makes sense.
+One last caveat: TB is easy to implement in-process but hard in a distributed system. TB requires shared, continuously-updated state — tokens and last_updated need to be in sync across nodes, which requires coordination. Fixed Window is easy there: a single atomic INCR in Redis does the job. But that makes sense — they serve different purposes.
 
 Use flow control to stop your services from blowing up under heavy load.
 Use quota to enforce limits — usually business requirements, directly or indirectly. OTP attempts, download caps, login throttling.
