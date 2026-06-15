@@ -1,6 +1,6 @@
 ---
 title: "WHAT is Ratelimiting??"
-description: ""
+description: "Deciphering rate limiting without using the word rate limit."
 date: "Jun 15, 2026"
 author: sku20
 ---
