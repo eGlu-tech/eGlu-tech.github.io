@@ -53,10 +53,15 @@ you might see, Leaky Bucket(counter) but is just mirror image of same algorithm.
 with capacity = burst. and rather than removing token we add token, and if it passes more than capacity we reject the request.
 
 ```
-tokens = min(b, tokens + r × Δt)
+now     = current_time()
+tokens  = min(b, tokens + r × (now - last_updated))
+last_updated = now
 
-accept → tokens ≥ 1, tokens -= 1
-reject → tokens < 1
+if tokens >= 1:
+    tokens -= 1
+    accept
+else:
+    reject
 ```
 
 ```
