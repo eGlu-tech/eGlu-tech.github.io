@@ -141,3 +141,4 @@ Decide what you want: flow control or quota.
 - [RFC 2697 — A Single Rate Three Color Marker](https://www.rfc-editor.org/rfc/rfc2697)
 - [RFC 2698 — A Two Rate Three Color Marker](https://www.rfc-editor.org/rfc/rfc2698)
 - [GCRA — Generic Cell Rate Algorithm (ATM)](https://en.wikipedia.org/wiki/Generic_cell_rate_algorithm)
+- [Network Calculus — A Theory of Deterministic Queuing Systems](https://leboudec.github.io/netcal/latex/netCalBook.pdf)
