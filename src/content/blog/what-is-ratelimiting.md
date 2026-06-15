@@ -111,11 +111,11 @@ So when I say 10 logins/min, all 10 attempts can happen in the first 10 seconds.
 
 It's a staircase. The counter climbs, hits the limit, resets at the window boundary.
 
-Fixed window means waiting until the next window to retry. Simple to implement, easy to distribute. When the limit is hit, server returns `429 Too Many Requests`, usually with a `Retry-After` header telling the client when the next window opens.
+Fixed window means waiting until the next window to retry. Simple to implement, easy to distribute.
 
 There's a known edge case though. At the window boundary, someone could send 10 requests in the last second of minute 1 and 10 more in the first second of minute 2 — 20 requests in ~2 seconds, double the quota. That's the boundary burst problem. Rolling windows, or more precisely the sliding window log, solve it by tracking exact timestamps of every request. Perfectly accurate, no boundary burst, but O(n) memory per user — doesn't scale well.
 
-What Cloudflare built is actually different: a sliding window counter. Two fixed window counters plus weighted math. O(1) memory, not exact, but close enough. They wrote about it here: [How we built rate limiting capable of scaling to millions of domains](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/).
+Cloudflare tried solving the scale problem with a sliding window counter — two fixed window counters plus weighted math. O(1) memory, not exact, but close enough. [How we built rate limiting capable of scaling to millions of domains](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/).
 
 Can rolling windows replace TB entirely? No. A rolling window with 10 req/min still lets you fire all 10 in the first millisecond — no spacing. It's still `count-based`. TB is `rate-based`. Once burst is exhausted, tokens drip in at a fixed rate and that forces spacing. No window-based approach can replicate that, rolling or not. Different job.
 
