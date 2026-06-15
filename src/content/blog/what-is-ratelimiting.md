@@ -53,8 +53,9 @@ you might see, Leaky Bucket(counter) but is just mirror image of same algorithm.
 with capacity = burst. and rather than removing token we add token, and if it passes more than capacity we reject the request.
 
 ```
-now     = current_time()
-tokens  = min(b, tokens + r × (now - last_updated))
+# Token Bucket
+now          = current_time()
+tokens       = min(b, tokens + r × (now - last_updated))
 last_updated = now
 
 if tokens >= 1:
@@ -65,10 +66,16 @@ else:
 ```
 
 ```
-counter = max(0, counter - r × Δt)
+# Leaky Bucket (counter)
+now          = current_time()
+counter      = max(0, counter - r × (now - last_updated))
+last_updated = now
 
-accept → counter < b, counter += 1
-reject → counter ≥ b
+if counter < b:
+    counter += 1
+    accept
+else:
+    reject
 ```
 
 Leaky Bucket also have a queue impl. its requires memory to store the
@@ -104,6 +111,8 @@ it would be hard to go further without taking a impl.
 lets take the basic fixed window. impl.
 
 ```
+# Fixed Window (Redis)
+now   = current_time()
 key   = "rl:{user}:{floor(now / 60)}"   # new key every minute
 
 count = INCR key
