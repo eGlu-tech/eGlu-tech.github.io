@@ -18,7 +18,7 @@ There are 2 things:
 
 ## Flow Control
 
-Flow control goes back to the 80s when networking was starting out. People wrote theses and papers on managing the flow of packets. How a router should behave, what its queue size should be, when to drop. It evolved into the field of network calculus. Let's not go in depth, but focus on what's relevant.
+Flow control goes back to the 80s when networking was starting out. People wrote theses and papers on managing the flow of packets. How a router should behave, what its queue size should be, when to drop. It evolved into the field of network calculus. That's a whole rabbit hole. Let's focus on what's relevant.
 
 Flow control means controlling the flow. Packets, requests, whatever. Deciding when to accept, when to drop, and how to handle bursts.
 
